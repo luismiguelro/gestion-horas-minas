@@ -43,16 +43,7 @@ const Signup = ({navigation}) => {
             color: COLORS.black,
           }}>Email address</Text>
 
-          <View style={{
-            width:'100%',
-            height:48,
-            borderColor: COLORS.black,
-            borderWidth:1,
-            borderRadius:8,
-            alignItems:'center',
-            justifyContent:'center',
-            paddingLeft:22,
-          }}>
+          <View style={styles.ViewEmail}>
             <TextInput
             placeholder="Enter your email addres"
             placeholderTextColor={COLORS.grey}
@@ -74,17 +65,7 @@ const Signup = ({navigation}) => {
             color: COLORS.black,
           }}>Phone Number</Text>
 
-          <View style={{
-            width:'100%',
-            height:48,
-            borderColor: COLORS.black,
-            borderWidth:1,
-            borderRadius:8,
-            alignItems:'center',
-            flexDirection:'row',
-            justifyContent:'space-between',
-            paddingLeft:22,
-          }}>
+          <View style={styles.ViewPhone}>
             <TextInput
             placeholder="+57"
             placeholderTextColor={COLORS.black}
@@ -190,6 +171,27 @@ const Signup = ({navigation}) => {
 
 /*other Signup styles*/
 const styles = StyleSheet.create({
+  ViewEmail:{
+    width:'100%',
+    height:48,
+    borderColor: COLORS.black,
+    borderWidth:1,
+    borderRadius:8,
+    alignItems:'center',
+    justifyContent:'center',
+    paddingLeft:22,
+  },
+  ViewPhone:{
+    width:'100%',
+    height:48,
+    borderColor: COLORS.black,
+    borderWidth:1,
+    borderRadius:8,
+    alignItems:'center',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingLeft:22,
+  },
   otherSignup: {
     flex:1,
     alignItems:'center',
