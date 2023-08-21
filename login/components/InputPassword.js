@@ -30,7 +30,7 @@ const InputPassword = ({headerText,placeholderText}) => {
       <TextInput
       placeholder={placeholderText}
       placeholderTextColor={COLORS.grey}
-      secureTextEntry ={!isPasswordShown}
+      secureTextEntry ={isPasswordShown}
       style={{
         width:'100%',
         color: COLORS.black,
