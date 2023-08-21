@@ -1,4 +1,3 @@
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
