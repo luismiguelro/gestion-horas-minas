@@ -5,14 +5,16 @@ import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity,StyleSheet,Image,Pressable} from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import COLORS from '../constants/colors';
+import COLORS from '../../assets/constants/colors';
 import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
-import IMAGES from '../constants/images';
+import IMAGES from '../../assets/constants/images';
 
 
 const Login = ({navigation}) => {
+  // Check: remember
   const [isChecked, setIsChecked] = useState(false);
+
   return (
     <SafeAreaView style={{flex:1, backgroundColor:COLORS.white}}>
       <View style={{flex:1, marginHorizontal:22}}>
@@ -76,6 +78,7 @@ const Login = ({navigation}) => {
             marginTop:18,
             marginBottom:4,
           }}
+          onPress={() => navigation.navigate('Dashboard')}
         />
         <View style={{flexDirection:'row', alignItems:'center',marginVertical:20}}>
           <View

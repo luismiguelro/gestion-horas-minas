@@ -2,12 +2,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import COLORS from '../constants/colors';
+import COLORS from '../../assets/constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const InputPassword = ({headerText,placeholderText}) => {
   // password status
-  const [isPasswordShown, setPasswordShown] = useState(false);
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
   return (
     <View style={{marginBottom:12}}>
     <Text style={{
@@ -30,20 +30,20 @@ const InputPassword = ({headerText,placeholderText}) => {
       <TextInput
       placeholder={placeholderText}
       placeholderTextColor={COLORS.grey}
-      secureTextEntry ={isPasswordShown}
+      secureTextEntry ={!isPasswordShown}
       style={{
         width:'100%',
         color: COLORS.black,
       }}
       />
       <TouchableOpacity
-       onPress={()=>setPasswordShown(!isPasswordShown)}
+       onPress={()=>setIsPasswordShown(!isPasswordShown)}
        style={{
         position: 'absolute',
         right:12,
       }}>
         {
-          isPasswordShown === true ? (<Ionicons name="eye-off" size={24} color={'red'}/>) : (<Ionicons name="eye" size={24} color={'red'}/>)
+          isPasswordShown === true ? (<Ionicons name="eye" size={24} color={'red'}/>) : (<Ionicons name="eye-off" size={24} color={'red'}/>)
         }
       </TouchableOpacity>
     </View>

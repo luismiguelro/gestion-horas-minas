@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 /**
  * Sample React Native App
@@ -5,13 +6,10 @@
  *
  * @format
  */
-
-import React from 'react';
-import {  } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import { Login,Signup, Welcome } from './login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { Dashboard } from './dashboard';
 const Stack = createNativeStackNavigator();
 export default function App(){
     return (
@@ -35,6 +33,13 @@ export default function App(){
                 <Stack.Screen
                     name="Signup"
                     component={Signup}
+                    options={{
+                        headerShown:false,
+                    }}
+                />
+                <Stack.Screen
+                    name="Dashboard"
+                    component={Dashboard}
                     options={{
                         headerShown:false,
                     }}

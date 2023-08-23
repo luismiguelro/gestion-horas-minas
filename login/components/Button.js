@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
-import COLORS from '../constants/colors';
+import COLORS from '../../assets/constants/colors';
 
 const Button = (props) => {
     const filledBgColor = props.color || COLORS.primary,

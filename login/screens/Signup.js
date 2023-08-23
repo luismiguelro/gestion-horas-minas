@@ -5,10 +5,10 @@ import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity,StyleSheet,Image,Pressable} from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import COLORS from '../constants/colors';
+import COLORS from '../../assets/constants/colors';
 import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
-import IMAGES from '../constants/images';
+import IMAGES from '../../assets/constants/images';
 
 
 const Signup = ({navigation}) => {

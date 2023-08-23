@@ -4,8 +4,8 @@
 /* eslint-disable prettier/prettier */
 import { View, Text, Image, Pressable } from 'react-native';
 import { LinearGradient } from 'react-native-linear-gradient';
-import COLORS from '../constants/colors';
-import IMAGES from '../constants/images';
+import COLORS from '../../assets/constants/colors';
+import IMAGES from '../../assets/constants/images';
 import React from 'react';
 import Button from '../components/Button';
 
