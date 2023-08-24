@@ -1,16 +1,22 @@
 /* eslint-disable prettier/prettier */
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React from 'react';
-const DashboardCard = ({ cardTitle, totalAmount, dateText, icon }) => {
+import Ionicons from 'react-native-vector-icons/Ionicons';
+const DashboardCard = ({ cardTitle, cardHour, dateText, icon,pressedd }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{cardTitle}</Text>
       <View style={styles.cardContent}>
         <View style={styles.cardText}>
-          <Text style={styles.totalAmount}>{totalAmount}</Text>
+          <Text style={styles.cardHour}>{cardHour}</Text>
           <Text style={styles.dateText}>{dateText}</Text>
         </View>
-        <View style={styles.iconContainer}>{icon}</View>
+        <View style={styles.iconContainer}>
+        <Pressable
+            onPress={() => console.log({pressedd})}>
+            <Ionicons name={icon} size={60} color={'#EFE3C8'}/>
+        </Pressable>
+            </View>
       </View>
     </View>
   );
@@ -42,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
   },
-  totalAmount: {
+  cardHour: {
     color: '#EFE3C880',
     fontSize: 24,
     marginBottom: 20,

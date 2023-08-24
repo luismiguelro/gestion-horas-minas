@@ -8,26 +8,30 @@ import COLORS from '../../assets/constants/colors';
 
 const Dashboard = () => {
   const [user, setUser] = useState('Mark');
+
   return (
     <SafeAreaView style={styles.container  }>
       <View style={styles.dashboardHeader}>
         <View style={styles.headerIcons}>
           <Text style={{ color: 'white', fontSize: 18 }}>Dashboard</Text>
         </View>
-        <View style={styles.userIcon}/> 
+        <View style={styles.userIcon}/>
       </View>
       <View style={styles.background} />
       <Text style={styles.greeting}>Hello, {user}</Text>
       <DashboardCard
+      pressedd="ingreso"
         cardTitle="Hora de ingreso"
-        totalAmount={'08:00 AM'}
+        cardHour={'08:00 AM'}
         dateText="07-08-2022"
+        icon="clock"
       />
 
       <DashboardCard
         cardTitle="Hora Salida"
-        totalAmount={'18:00 PM'}
+        cardHour={'18:00 PM'}
         dateText="07-08-2022"
+        icon="clock"
       />
     </SafeAreaView>
   );

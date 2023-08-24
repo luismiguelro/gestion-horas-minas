@@ -1,5 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/react-in-jsx-scope */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
