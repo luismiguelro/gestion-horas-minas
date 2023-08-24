@@ -1,9 +1,32 @@
 /* eslint-disable prettier/prettier */
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+/* eslint-disable keyword-spacing */
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const DashboardCard = ({ cardTitle, cardHour, dateText, icon,pressedd }) => {
-  return (
+
+const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, onPressSalida,onPressConsulta }) => {
+    const navigation = useNavigation();
+    // Ejecucion del icono
+    const handleIconPress = () => {
+        // decidir que funcion ejecutar
+        if(onPressIngreso){
+            onPressIngreso();
+            return;
+        }
+        if(onPressSalida){
+            onPressSalida();
+            Alert.alert(  //This is title
+            "HORAS EN TOTAL",
+              //This is body text
+            "Hoy trabajaste 6 horas",);
+            return;
+        }
+        if(onPressConsulta){
+            navigation.navigate('FormScreen');
+        }
+      };
+    return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{cardTitle}</Text>
       <View style={styles.cardContent}>
@@ -13,7 +36,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, icon,pressedd }) => {
         </View>
         <View style={styles.iconContainer}>
         <Pressable
-            onPress={() => console.log({pressedd})}>
+            onPress={handleIconPress}>
             <Ionicons name={icon} size={60} color={'#EFE3C8'}/>
         </Pressable>
             </View>

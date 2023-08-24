@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { Login,Signup, Welcome } from './login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from './dashboard';
+import {FormScreen} from './dashboard';
 const Stack = createNativeStackNavigator();
 export default function App(){
     return (
@@ -40,6 +41,14 @@ export default function App(){
                 <Stack.Screen
                     name="Dashboard"
                     component={Dashboard}
+                    options={{
+                        headerShown:false,
+                    }}
+                />
+
+                  <Stack.Screen
+                    name="FormScreen"
+                    component={FormScreen}
                     options={{
                         headerShown:false,
                     }}

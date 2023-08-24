@@ -20,11 +20,13 @@ const Dashboard = () => {
       <View style={styles.background} />
       <Text style={styles.greeting}>Hello, {user}</Text>
       <DashboardCard
-      pressedd="ingreso"
         cardTitle="Hora de ingreso"
         cardHour={'08:00 AM'}
         dateText="07-08-2022"
         icon="clock"
+        onPressIngreso={() => {
+          console.log('Icono presionado en hora de ingreso');
+        }}
       />
 
       <DashboardCard
@@ -32,6 +34,17 @@ const Dashboard = () => {
         cardHour={'18:00 PM'}
         dateText="07-08-2022"
         icon="clock"
+        onPressSalida={() => {
+          console.log('Icono presionado en hora de salida');
+        }}
+      />
+
+<DashboardCard
+        cardTitle="Consulta"
+        cardHour={'18:00 PM'}
+        dateText="07-08-2022"
+        icon="clock"
+        onPressConsulta
       />
     </SafeAreaView>
   );
