@@ -39,12 +39,20 @@ const Dashboard = () => {
         }}
       />
 
-<DashboardCard
+      <DashboardCard
         cardTitle="Consulta"
         cardHour={'18:00 PM'}
         dateText="07-08-2022"
         icon="clock"
         onPressConsulta
+      />
+
+      <DashboardCard
+        cardTitle="Novedades"
+        cardHour={'18:00 PM'}
+        dateText="07-08-2022"
+        icon="clock"
+        onPressNovedades
       />
     </SafeAreaView>
   );

@@ -5,82 +5,7 @@ import { View, Text, TextInput, Alert, StyleSheet,FlatList } from 'react-native'
 import { format } from 'date-fns'; // Importa la función format de date-fns
 import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F0F0F0',  // Color de fondo de la pantalla
-    padding: 16,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',  // Color de fondo de los registros
-    borderColor: '#DDDDDD',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 10,
-  },
-  cardTitle: {
-    fontSize:22,
-    fontWeight:'bold',
-    marginVertical:12,
-    color: COLORS.black,
-  },
-  cardText: {
-      // Color de fondo de los campos de entrada
-    padding: 10,
-    marginBottom: 10,
-    width:'100%',
-    color: COLORS.black,
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-    marginBottom: 5,
-  },
-  columnHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#444444',
-  },
-  tableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDDDDD',
-  },
-  dateText: {
-    fontSize: 14,
-    color: '#555555',
-  },
-  cardHour: {
-    fontSize: 16,
-    color: '#333333',
-  },
-  button:{
-    paddingBottom:16,
-    paddingVertical: 10,
-    borderColor: COLORS.primary,
-    borderWidth:2,
-    borderRadius:12,
-    alignItems:'center',
-    justifyContent: 'center',
 
-},
-ViewInput:{
-  width:'100%',
-  height:48,
-  borderColor: COLORS.black,
-  borderWidth:1,
-  borderRadius:8,
-  alignItems:'center',
-  justifyContent:'center',
-  paddingLeft:22,
-},
-});
 const FormScreen = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -189,5 +114,80 @@ const FormScreen = () => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',  // Color de fondo de la pantalla
+    padding: 16,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',  // Color de fondo de los registros
+    borderColor: '#DDDDDD',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+  },
+  cardTitle: {
+    fontSize:22,
+    fontWeight:'bold',
+    marginVertical:12,
+    color: COLORS.black,
+  },
+  cardText: {
+      // Color de fondo de los campos de entrada
+    padding: 10,
+    marginBottom: 10,
+    width:'100%',
+    color: COLORS.black,
+  },
+  tableHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDDDDD',
+    marginBottom: 5,
+  },
+  columnHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#444444',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDDDDD',
+  },
+  dateText: {
+    fontSize: 14,
+    color: '#555555',
+  },
+  cardHour: {
+    fontSize: 16,
+    color: '#333333',
+  },
+  button:{
+    paddingBottom:16,
+    paddingVertical: 10,
+    borderColor: COLORS.primary,
+    borderWidth:2,
+    borderRadius:12,
+    alignItems:'center',
+    justifyContent: 'center',
 
+},
+ViewInput:{
+  width:'100%',
+  height:48,
+  borderColor: COLORS.black,
+  borderWidth:1,
+  borderRadius:8,
+  alignItems:'center',
+  justifyContent:'center',
+  paddingLeft:22,
+},
+});
 export default FormScreen;

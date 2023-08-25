@@ -2,4 +2,6 @@
 /* eslint-disable no-unused-vars */
 import Dashboard from './screens/Dashboard';
 import FormScreen from './screens/FormScreen';
-export {Dashboard, FormScreen};
+import Novedades from './screens/Novedades';
+
+export {Dashboard, FormScreen,Novedades};

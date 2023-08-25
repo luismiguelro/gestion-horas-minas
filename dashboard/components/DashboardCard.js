@@ -5,7 +5,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, onPressSalida,onPressConsulta }) => {
+const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, onPressSalida,onPressConsulta,onPressNovedades }) => {
     const navigation = useNavigation();
     // Ejecucion del icono
     const handleIconPress = () => {
@@ -17,14 +17,19 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, on
         if(onPressSalida){
             onPressSalida();
             Alert.alert(  //This is title
-            "HORAS EN TOTAL",
+            'HORAS EN TOTAL',
               //This is body text
-            "Hoy trabajaste 6 horas",);
+            'Hoy trabajaste 6 horas',);
             return;
         }
         if(onPressConsulta){
             navigation.navigate('FormScreen');
+            return;
         }
+        if(onPressNovedades){
+          navigation.navigate('Novedades');
+          return;
+      }
       };
     return (
     <View style={styles.card}>
