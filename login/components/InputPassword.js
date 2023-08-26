@@ -27,6 +27,7 @@ const InputPassword = ({headerText,placeholderText}) => {
       justifyContent:'center',
       paddingLeft:22,
     }}>
+      
       <TextInput
       placeholder={placeholderText}
       placeholderTextColor={COLORS.grey}
@@ -43,7 +44,7 @@ const InputPassword = ({headerText,placeholderText}) => {
         right:12,
       }}>
         {
-          isPasswordShown === true ? (<Ionicons name="eye" size={24} color={'red'}/>) : (<Ionicons name="eye-off" size={24} color={'red'}/>)
+          isPasswordShown === true ? (<Ionicons name="eye" size={24} color={COLORS.primary}/>) : (<Ionicons name="eye-off" size={24} color={COLORS.primary}/>)
         }
       </TouchableOpacity>
     </View>

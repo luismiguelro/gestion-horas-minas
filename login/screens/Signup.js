@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
@@ -16,7 +17,8 @@ import COLORS from '../../assets/constants/colors';
 import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
 import IMAGES from '../../assets/constants/images';
-
+import Input from '../components/Input';
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
 const Signup = ({ navigation }) => {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -31,85 +33,88 @@ const Signup = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentContainer}>
-        {/* Título */}
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Crea un Cuenta</Text>
-          <Text style={styles.subtitle}>Comienza a gestionar tus permisos!</Text>
-        </View>
-
-        <View style={styles.inputContainer}>
-          {/* Campo de número de identificacion */}
-          <Text style={styles.inputLabel}>Cedula de Ciudadania</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              placeholder="Digita tu cedula"
-              placeholderTextColor={COLORS.grey}
-              keyboardType="numeric"
-              style={styles.textInput}
-            />
-          </View>
-        </View>
-
-        {/* Campo de correo electrónico */}
-        <Text style={styles.inputLabel}>Correo Electrónico</Text>
-          <View style={styles.inputView}>
-            <TextInput
-              placeholder="Entra tu correo electronico"
-              placeholderTextColor={COLORS.grey}
-              keyboardType="email-address"
-              style={styles.textInput}
-            />
+      <ScrollView>
+        <View style={styles.contentContainer}>
+          {/* Título */}
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Crea una Cuenta</Text>
+            <Text style={styles.subtitle}>Comienza a gestionar tus necesidades!</Text>
           </View>
 
-        {/* Campos de contraseña */}
-        <View style={styles.passwordContainer}>
-          <InputPassword headerText="Password" placeholderText="Escribe tu contraseña" />
+          <View style={styles.container}>
+      {/* Campo de número de identificacion */}
+      <Input
+        label="Cedula de Ciudadania"
+        placeholder="Digita tu cedula"
+        keyboardType="numeric"
+        icon="id-card"
+        />
+      {/* Campo de nombres */}
+      <Input
+        label="Nombre Completo"
+        placeholder="Entra tu nombre completo"
+        keyboardType="default"
+        maxLength={40}
+        icon="user"
+      />
 
-        </View>
-
-        {/* Checkbox de acuerdo a términos y condiciones */}
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={setIsChecked}
-            color={isChecked ? COLORS.primary : undefined}
-          />
-          <Text style={styles.checkboxText}>I agree to the terms and conditions.</Text>
-        </View>
-
-        {/* Botón de registro */}
-        <Button title="Sign up" filled style={styles.signupButton} />
-
-        {/* Separador "O Sign up with" */}
-        <View style={styles.orDivider}>
-          <View style={styles.dividerLine} />
-          <Text style={styles.dividerText}>Or Sign up with</Text>
-          <View style={styles.dividerLine} />
-        </View>
-
-        {/* Botones de registro social */}
-        <View style={styles.socialSignupContainer}>
-          <TouchableOpacity onPress={handleFacebookPress} style={styles.socialSignupButton}>
-            <Image source={IMAGES.signUp.facebook} style={styles.socialImage} resizeMode="contain" />
-            <Text style={styles.socialButtonText}>Facebook</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={handleGooglePress} style={styles.socialSignupButton}>
-            <Image source={IMAGES.signUp.google} style={styles.socialImage} resizeMode="contain" />
-            <Text style={styles.socialButtonText}>Google</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Enlace de inicio de sesión */}
-        <View style={styles.loginLinkContainer}>
-          <Text style={styles.loginText}>Already have an account</Text>
-          <Pressable onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginLink}>Login</Text>
-          </Pressable>
-        </View>
+      {/* Campo de correo electrónico */}
+      <Input
+        label="Correo Electrónico"
+        placeholder="Entra tu correo electronico"
+        keyboardType="email-address"
+        icon="mail"
+      />
+      {/* Campo de contraseña */}
+      <View style={styles.passwordContainer}>
+        <InputPassword headerText="Contraseña" placeholderText="Escribe tu contraseña" />
       </View>
+    </View>
+
+          {/* Checkbox de acuerdo a términos y condiciones */}
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              style={styles.checkbox}
+              value={isChecked}
+              onValueChange={setIsChecked}
+              color={isChecked ? COLORS.primary : undefined}
+            />
+            <Text style={styles.checkboxText}>I agree to the terms and conditions.</Text>
+          </View>
+
+          {/* Botón de registro */}
+          <Button title="Sign up" filled style={styles.signupButton} />
+
+          {/* Separador "O Sign up with" */}
+          <View style={styles.orDivider}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>Or Sign up with</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          {/* Botones de registro social */}
+          <View style={styles.socialSignupContainer}>
+            <TouchableOpacity onPress={handleFacebookPress} style={styles.socialSignupButton}>
+              <Image source={IMAGES.signUp.facebook} style={styles.socialImage} resizeMode="contain" />
+              <Text style={styles.socialButtonText}>Facebook</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleGooglePress} style={styles.socialSignupButton}>
+              <Image source={IMAGES.signUp.google} style={styles.socialImage} resizeMode="contain" />
+              <Text style={styles.socialButtonText}>Google</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Enlace de inicio de sesión */}
+          <View style={styles.loginLinkContainer}>
+            <Text style={styles.loginText}>Already have an account</Text>
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginLink}>Login</Text>
+            </Pressable>
+          </View>
+        </View>
+      </ScrollView>
+      
     </SafeAreaView>
   );
 };
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.black,
     borderRadius: 8,
-    marginBottom: 12,
+    marginBottom: 5,
   },
   textInput: {
     flex: 1,
