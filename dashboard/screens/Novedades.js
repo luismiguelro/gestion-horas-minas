@@ -138,14 +138,6 @@ const Novedades = () => {
   const [startHour, setStartHour] = useState('');
   const [endHour, setEndHour] = useState('');
 
-  
-  const formatHour = (hour) => {
-    if (hour.length === 1) {
-      return `0${hour}`;
-    }
-    return hour;
-  };
-
 
   const handleCalculateDays = () => {
     // Lógica para calcular días
