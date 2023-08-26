@@ -18,7 +18,7 @@ const Welcome = ({navigation}) => {
       <View style={{flex:1}}>
         <View>
           <Image
-            source={IMAGES.login.img1}
+            source={IMAGES.login.img4}
             style={{
               height:100,
               width:100,
@@ -34,7 +34,7 @@ const Welcome = ({navigation}) => {
           />
 
           <Image
-            source={IMAGES.login.img1}
+            source={IMAGES.login.img2}
             style={{
               height:100,
               width:100,
@@ -51,7 +51,7 @@ const Welcome = ({navigation}) => {
           />
 
           <Image
-            source={IMAGES.login.img1}
+            source={IMAGES.login.img3}
             style={{
               height:100,
               width:100,
@@ -97,32 +97,24 @@ const Welcome = ({navigation}) => {
               fontWeight:800,
               color:COLORS.white,
             }}>
-              Let's Get
+              Mineria S.A.S
             </Text>
-            <Text style={{
-              fontSize:45,
-              fontWeight:800,
-              color:COLORS.white,
-            }}>
-              Started
-            </Text>
-
             <View style={{
-              marginVertical:22,
+              marginVertical:15,
             }}>
             <Text style={{
               fontSize:16,
               color:COLORS.white,
               marginVertical:4,
-            }}>Connect with each other with chatting</Text>
+            }}>Aquí podrás realizar el registro de tus horas trabajadas!</Text>
              <Text style={{
               fontSize:16,
               color:COLORS.white,
-            }}>Calling, Enjoy Safe and private texting</Text>
+            }}>Al igual que consultar, solicitar vacaciones, entre otras...</Text>
             </View>
 
             <Button
-            title="Join Now"
+            title="Registrate"
             onPress={()=>navigation.navigate('Signup')}
             style={{
               marginTop:22,
@@ -134,9 +126,9 @@ const Welcome = ({navigation}) => {
               marginTop:12,
               justifyContent:'center',
             }}>
-              <Text style={{fontSize:16,color:COLORS.white}}>Already have an account?</Text>
+              <Text style={{fontSize:16,color:COLORS.white}}>¿Ya tienes una cuenta?</Text>
               <Pressable onPress={()=>navigation.navigate('Login')}>
-                <Text style={{fontSize:16,color:COLORS.white,fontWeight:'bold',marginLeft:4}}>Login</Text>
+                <Text style={{fontSize:16,color:COLORS.white,fontWeight:'bold',marginLeft:4}}>Iniciar Sesión</Text>
               </Pressable>
             </View>
         </View>

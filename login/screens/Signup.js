@@ -13,6 +13,7 @@ import {
   Pressable,
   ScrollView,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
@@ -48,7 +49,6 @@ const Signup = ({ navigation }) => {
       valid = false;
     }
 
-    // Validación de la contraseña
     // Validación del correo electrónico
 if (!inputs.email) {
   handleError('Ingresa un correo :)', 'email');
@@ -70,14 +70,19 @@ if (!inputs.email) {
   }
 
 
-
+// Validación del campo nombre
     if (!inputs.fullname){
       handleError('Ingresa tu nombre :)','fullname');
       valid = false;
     }
 
-    if (!inputs.id){
-      handleError('Ingresa tu CC','id');
+    // Validación del campo de identificación
+    const idRegex = /^\d+$/; // Expresión regular que permite solo números
+    if (!inputs.id) {
+      handleError('Ingresa tu CC', 'id');
+      valid = false;
+    } else if (!idRegex.test(inputs.id)) {
+      handleError('Ingresa solo números :)', 'id');
       valid = false;
     }
   };
@@ -98,11 +103,11 @@ if (!inputs.email) {
 
   // Manejadores de prensa para los botones de Facebook y Google
   const handleFacebookPress = () => {
-    console.log('pressed facebook');
+    Alert.alert('NOTIFICATION','pressed facebook',);
   };
 
   const handleGooglePress = () => {
-    console.log('pressed google');
+    Alert.alert('NOTIFICATION','pressed google');
   };
 
   return (
