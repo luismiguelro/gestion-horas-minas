@@ -9,26 +9,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // Import 
 import Icon from 'react-native-vector-icons/FontAwesome'; // Adjust the import based on your chosen icon library
 
 const Dashboard = ({navigation}) => {
-  const [user, setUser] = useState('');
-
-  //Obtener los datos del usuario del AsyncStorage al cargar la pantalla.
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('user');
-        const userObj = JSON.parse(userData);
-        setUser(userObj.fullname);
-      } catch (error) {
-        console.error('Error al traer la informacion del usuario:', error);
-      }
-    };
-
-    fetchUser();
+  const [userDetails, setUserDetails] = React.useState();
+  React.useEffect(() => {
+    getUserData();
   }, []);
 
-  const logout = ()=>{
-    // eslint-disable-next-line no-undef
-    AsyncStorage.setItem('user',JSON.stringify({...user,loggedIn:false}));
+  const getUserData = async () => {
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      setUserDetails(JSON.parse(userData));
+    }
+  };
+
+  const logout = () => {
+    AsyncStorage.setItem(
+      'user',
+      JSON.stringify({...userDetails, loggedIn: false}),
+    );
     navigation.navigate('Login');
   };
   return (
@@ -42,7 +39,7 @@ const Dashboard = ({navigation}) => {
           </View>
       </View>
       <View style={styles.background} />
-      <Text style={styles.greeting}>Hello, {user}</Text>
+      <Text style={styles.greeting}>Hello, {userDetails?.fullname}</Text>
       <DashboardCard
         cardTitle="Hora de ingreso"
         cardHour={'08:00 AM'}

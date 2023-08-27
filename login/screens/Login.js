@@ -71,7 +71,8 @@ const Login = ({ navigation }) => {
           inputs.password === userData.password
         ) {
           {/*Actualizar la informacion y añadiendo validacion de inicio de sesion y a su vez llevando a la pantall principal*/}
-          AsyncStorage.setItem('user',JSON.stringify({...userData, loggedIn:true}));
+          AsyncStorage.setItem('user',  JSON.stringify({...userData, loggedIn: true}),
+          );
           navigation.navigate('Dashboard');
         } else {
           Alert.alert('Error','Correo o contraseña incorrectos');

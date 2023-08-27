@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -12,12 +13,40 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from './dashboard';
 import { FormScreen } from './dashboard';
 import { Novedades } from './dashboard';
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from './login/components/Loader';
 const Stack = createNativeStackNavigator();
 export default function App(){
+    // autenticacion del usuario
+    const [initialRouteName,setInitialRouteName] = React.useState('');
+    React.useEffect(() => {
+        setTimeout(() => {
+          authUser();
+        }, 2000);
+      }, []);
+      const authUser = async () => {
+        try {
+          let userData = await AsyncStorage.getItem('user');
+          if (userData) {
+            const userDataObj = JSON.parse(userData);
+            if (userDataObj?.loggedIn) {
+              setInitialRouteName('Dashboard');
+            } else {
+              setInitialRouteName('Login');
+            }
+          } else {
+            setInitialRouteName('Welcome');
+          }
+        } catch (error) {
+          setInitialRouteName('Welcome');
+        }
+      };
     return (
         <NavigationContainer>
-            <Stack.Navigator
-            initialRouteName="Welcome">
+          {initialRouteName === '' ? <Loader visible={true}/> : <>
+          <Stack.Navigator
+            initialRouteName={initialRouteName}>
                 <Stack.Screen
                     name="Welcome"
                     component={Welcome}
@@ -62,6 +91,7 @@ export default function App(){
                     }}
                 />
             </Stack.Navigator>
+        </>}
       </NavigationContainer>
     );
 }
