@@ -6,7 +6,7 @@
  *
  * @format
  */
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { Login,Signup, Welcome } from './login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from './dashboard';

@@ -6,9 +6,9 @@ import React, {useState,useEffect} from 'react';
 import DashboardCard from '../components/DashboardCard';
 import COLORS from '../../assets/constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage from the correct package
+import Icon from 'react-native-vector-icons/FontAwesome'; // Adjust the import based on your chosen icon library
 
-
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   const [user, setUser] = useState('');
 
   //Obtener los datos del usuario del AsyncStorage al cargar la pantalla.
@@ -25,13 +25,21 @@ const Dashboard = () => {
 
     fetchUser();
   }, []);
+
+  const logout = ()=>{
+    // eslint-disable-next-line no-undef
+    AsyncStorage.setItem('user',JSON.stringify({...user,loggedIn:false}));
+    navigation.navigate('Login');
+  };
   return (
     <SafeAreaView style={styles.container  }>
       <View style={styles.dashboardHeader}>
-        <View style={styles.headerIcons}>
-          <Text style={{ color: 'white', fontSize: 18 }}>Dashboard</Text>
-        </View>
-        <View style={styles.userIcon}/>
+          <View style={styles.headerIcons}>
+            <Text style={{ color: COLORS.white, fontSize: 15 }}>Menú Principal</Text>
+          </View>
+          <View style={styles.exitIcon}>
+            <Icon name="sign-out" size={24} color={COLORS.white} onPress={logout}  />
+          </View>
       </View>
       <View style={styles.background} />
       <Text style={styles.greeting}>Hello, {user}</Text>
@@ -89,6 +97,12 @@ const styles = {
     alignItems: 'center',
     paddingHorizontal: 12,
   },
+  dashboardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
   headerContent: {
     flexDirection: 'row',
     gap: 4,
@@ -102,7 +116,7 @@ const styles = {
   userIconContainer: {
     width: 40,
     height: 40,
-    backgroundColor: '#704341',
+    backgroundColor: COLORS.black,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -114,6 +128,7 @@ const styles = {
     borderBottomLeftRadius:15,
     borderBottomRightRadius:15,
     position: 'absolute',
+    zIndex: -1,
   },
   greeting: {
     color: 'white',

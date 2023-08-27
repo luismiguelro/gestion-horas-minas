@@ -24,8 +24,10 @@ import IMAGES from '../../assets/constants/images';
 import Input from '../components/Input';
 import Loader from '../components/Loader';
 
-import {AsyncStorage} from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Signup = ({ navigation }) => {
+
 // check terminos y condiciones
   const [isChecked, setIsChecked] = useState(false);
 
@@ -38,9 +40,11 @@ const Signup = ({ navigation }) => {
     password:'',
   });
 
-  //Validar errores
+  // estado para el loader
   const [loading, setLoading] = useState(false);
-  const validate = ()=>{
+
+  //Validar errores
+  const validate = async ()=>{
     //traer lo que copie el usuario
     Keyboard.dismiss();
     let valid = true;
@@ -50,6 +54,7 @@ const Signup = ({ navigation }) => {
     } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
       handleError('Ingresa un correo valido :)', 'email');
       valid = false;
+      // validar si
     }
 
 // Validación de la contraseña
@@ -79,30 +84,65 @@ const Signup = ({ navigation }) => {
       valid = false;
     }
 
-    if (valid){
-      register();
+    if (valid) {
+      // Aquí agregamos la verificación de correo electrónico
+      const emailExists = await checkEmailExists(inputs.email);
+      if (emailExists) {
+        handleError('El correo ya está registrado :)', 'email');
+      } else {
+        // Si el correo no está registrado, procedemos con el registro
+        register();
+        console.log(inputs);
+      }
     }
+};
+
+
+  const [errors, setErrors] = useState({});
+
+  // Registrarse
+  const register = () => {
+    setLoading(true);
+    setTimeout(() => {
+      try {
+        setLoading(false);
+        AsyncStorage.setItem('user', JSON.stringify(inputs));
+        navigation.navigate('Dashboard');
+        //resetFields();
+      } catch (error) {
+        Alert.alert('Error', error.message);
+        console.log(error);
+      }
+    }, 3000);
   };
 
-  // estado para el loader
-  const [errors, setErrors] = useState({});
-  // Registrarse
-  const register = ()=>{
-    // mostrar el loading
-    setLoading(false);
-
-    // añadir 3seg despues de registrarse
-    setTimeout(()=>{
-      setLoading(false);
+    // validar si un correo existe
+    const checkEmailExists = async (email) => {
       try {
-        //añadir al local storage el registro
-        AsyncStorage.setItem('user',JSON.stringify(inputs));
-        // iniciar sesion
-        navigation.navigate('Dashboard');
+        const users = await AsyncStorage.getItem('user'); // Suponiendo que 'users' es la clave de almacenamiento para los usuarios
+        if (users) {
+          const userList = JSON.parse(users);
+          const existingUser = userList.find(user => user.email === email);
+          if (existingUser) {
+            return true; // El correo ya existe
+          }
+        }
+        return false; // El correo no existe
       } catch (error) {
-        Alert.alert('Error','Something went wrong');
+       Alert.alert('Error while checking email existence:', error.message);
+        return false; // En caso de error, asumimos que el correo no existe para evitar problemas
       }
-    },3000);
+    };
+  // vaciar los inputs
+  const resetFields = () => {
+    setInputs({
+      id: '',
+      fullname: '',
+      email: '',
+      password: '',
+    });
+    setErrors({});
+    setIsChecked(false);
   };
 
   //actualizar estado input con lo ingresado
