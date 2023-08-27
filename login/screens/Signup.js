@@ -22,8 +22,11 @@ import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
 import IMAGES from '../../assets/constants/images';
 import Input from '../components/Input';
+import Loader from '../components/Loader';
+
 import {AsyncStorage} from '@react-native-async-storage/async-storage';
 const Signup = ({ navigation }) => {
+// check terminos y condiciones
   const [isChecked, setIsChecked] = useState(false);
 
   //validar inputs
@@ -36,7 +39,7 @@ const Signup = ({ navigation }) => {
   });
 
   //Validar errores
-  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const validate = ()=>{
     //traer lo que copie el usuario
     Keyboard.dismiss();
@@ -49,18 +52,8 @@ const Signup = ({ navigation }) => {
       valid = false;
     }
 
-    // Validación del correo electrónico
-if (!inputs.email) {
-  handleError('Ingresa un correo :)', 'email');
-  valid = false;
-} else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
-  handleError('Ingresa un correo válido :)', 'email');
-  valid = false;
-}
-
 // Validación de la contraseña
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/; //  verifica si la contraseña cumple con los criterios especificados.
-
   if (!inputs.password) {
     handleError('Ingresa una contraseña :)', 'password');
     valid = false;
@@ -85,6 +78,31 @@ if (!inputs.email) {
       handleError('Ingresa solo números :)', 'id');
       valid = false;
     }
+
+    if (valid){
+      register();
+    }
+  };
+
+  // estado para el loader
+  const [errors, setErrors] = useState({});
+  // Registrarse
+  const register = ()=>{
+    // mostrar el loading
+    setLoading(false);
+
+    // añadir 3seg despues de registrarse
+    setTimeout(()=>{
+      setLoading(false);
+      try {
+        //añadir al local storage el registro
+        AsyncStorage.setItem('user',JSON.stringify(inputs));
+        // iniciar sesion
+        navigation.navigate('Dashboard');
+      } catch (error) {
+        Alert.alert('Error','Something went wrong');
+      }
+    },3000);
   };
 
   //actualizar estado input con lo ingresado
@@ -96,9 +114,6 @@ if (!inputs.email) {
   const handleError = (errorMessage,input)=>{
     setErrors(prevState =>({...prevState, [input]:errorMessage}));
   };
-
-
-
   console.log(inputs);
 
   // Manejadores de prensa para los botones de Facebook y Google
@@ -112,6 +127,7 @@ if (!inputs.email) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Loader visible={loading}/>
       <ScrollView>
         <View style={styles.contentContainer}>
           {/* Título */}
@@ -188,16 +204,16 @@ if (!inputs.email) {
               onValueChange={setIsChecked}
               color={isChecked ? COLORS.primary : undefined}
             />
-            <Text style={styles.checkboxText}>I agree to the terms and conditions.</Text>
+            <Text style={styles.checkboxText}>Acepto los terminos y condiciones *.</Text>
           </View>
 
           {/* Botón de registro */}
-          <Button title="Sign up" filled style={styles.signupButton} onPress={validate} />
+          <Button title="Registrarse" filled style={styles.signupButton} onPress={validate} />
 
           {/* Separador "O Sign up with" */}
           <View style={styles.orDivider}>
             <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>Or Sign up with</Text>
+            <Text style={styles.dividerText}>O inicia sesión con:</Text>
             <View style={styles.dividerLine} />
           </View>
 
@@ -216,9 +232,9 @@ if (!inputs.email) {
 
           {/* Enlace de inicio de sesión */}
           <View style={styles.loginLinkContainer}>
-            <Text style={styles.loginText}>Already have an account</Text>
+            <Text style={styles.loginText}>¿Ya tienes una cuenta?</Text>
             <Pressable onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.loginLink}>Login</Text>
+              <Text style={styles.loginLink}>Inicia Sesión</Text>
             </Pressable>
           </View>
         </View>

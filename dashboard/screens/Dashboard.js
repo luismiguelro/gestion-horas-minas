@@ -2,13 +2,29 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import { View, Text, SafeAreaView } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import DashboardCard from '../components/DashboardCard';
 import COLORS from '../../assets/constants/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage from the correct package
+
 
 const Dashboard = () => {
-  const [user, setUser] = useState('Mark');
+  const [user, setUser] = useState('');
 
+  //Obtener los datos del usuario del AsyncStorage al cargar la pantalla.
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        const userObj = JSON.parse(userData);
+        setUser(userObj.fullname);
+      } catch (error) {
+        console.error('Error al traer la informacion del usuario:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   return (
     <SafeAreaView style={styles.container  }>
       <View style={styles.dashboardHeader}>
