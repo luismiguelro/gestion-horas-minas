@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 
-import { View, Text, SafeAreaView } from 'react-native';
+import { Pressable, View, Text, SafeAreaView, Alert } from 'react-native';
 import React, {useState,useEffect} from 'react';
 import DashboardCard from '../components/DashboardCard';
 import COLORS from '../../assets/constants/colors';
@@ -9,18 +9,69 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // Import 
 import Icon from 'react-native-vector-icons/FontAwesome'; // Adjust the import based on your chosen icon library
 
 const Dashboard = ({navigation}) => {
-  const [userDetails, setUserDetails] = React.useState();
-  React.useEffect(() => {
-    getUserData();
-  }, []);
+  // estados para la hora de ingreso
+const [userData, setUserData] = useState({
+  activities: [''], // Initialize with an empty array
+});
 
-  const getUserData = async () => {
-    const userData = await AsyncStorage.getItem('user');
-    if (userData) {
-      setUserDetails(JSON.parse(userData));
+// verificar si ya se ha hecho el registro de entrada en el dia
+const isTodayRegistered = () => {
+  const today = new Date().toLocaleDateString();
+
+  // se busca alguna coinicidencia con la fecha de hoy y la guardada
+  return userData.activities.some(activity => activity.date === today);
+};
+
+// actualizar hora en la card
+const updateCurrentTime = async () => {
+  
+    const newTime = new Date();
+    await saveActivity(newTime);
+ 
+  
+};
+
+// guardar la hora de ingreso pasandola al formato hh:mm
+const saveActivity = async (time) => {
+  const signInTime = {
+    date: time.toLocaleDateString(),
+    signInTime: time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
+  const signOutTime = {
+    date: time.toLocaleDateString(),
+    signOutTime: time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
+
+
+  try {
+    const  updatedUserData = {
+      ...userData,
+      activities: [...userData.activities, signInTime,signOutTime], // realizar copia de las actividades y añadir la nueva
+    };
+
+    setUserData( updatedUserData);
+    console.log( updatedUserData);
+    await AsyncStorage.setItem('user', JSON.stringify( updatedUserData)); // guardar en el localstorage
+  } catch (error) {
+    console.error('Error guardando la informacion:', error);
+  }
+};
+
+useEffect(() => {
+  const loadStoredData = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('user');
+      if (storedData) {
+        setUserData(JSON.parse(storedData));
+      }
+    } catch (error) {
+      console.error('Error al cargar la informacion:', error);
     }
   };
 
+  loadStoredData();
+}, []);
+  // cerrar sesion
   const logout = () => {
     AsyncStorage.setItem(
       'user',
@@ -28,6 +79,10 @@ const Dashboard = ({navigation}) => {
     );
     navigation.navigate('Login');
   };
+
+
+
+
   return (
     <SafeAreaView style={styles.container  }>
       <View style={styles.dashboardHeader}>
@@ -39,25 +94,23 @@ const Dashboard = ({navigation}) => {
           </View>
       </View>
       <View style={styles.background} />
-      <Text style={styles.greeting}>Hello, {userDetails?.fullname}</Text>
-      <DashboardCard
-        cardTitle="Hora de ingreso"
-        cardHour={'08:00 AM'}
-        dateText="07-08-2022"
-        icon="clock"
-        onPressIngreso={() => {
-          console.log('Icono presionado en hora de ingreso');
-        }}
-      />
+      <Text style={styles.greeting}>Hello, {userData?.fullname}</Text>
+      
+        <DashboardCard
+          cardTitle="Hora de ingreso"
+          cardHour={userData.activities.length > 0 ? userData.activities[userData.activities.length - 2].signInTime : ''}
+          dateText={userData.activities.length > 0 ? userData.activities[userData.activities.length - 2].date : ''}
+          icon="clock"
+          onPressIngreso={updateCurrentTime}
+        />
+
 
       <DashboardCard
         cardTitle="Hora Salida"
-        cardHour={'18:00 PM'}
-        dateText="07-08-2022"
+        cardHour={userData.activities.length > 0 ? userData.activities[userData.activities.length - 1].signOutTime : ''}
+        dateText={userData.activities.length > 0 ? userData.activities[userData.activities.length - 1].date : ''}
         icon="clock"
-        onPressSalida={() => {
-          console.log('Icono presionado en hora de salida');
-        }}
+         onPressSalida={console.log('hola')}
       />
 
       <DashboardCard

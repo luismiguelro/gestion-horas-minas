@@ -16,10 +16,6 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, on
         }
         if(onPressSalida){
             onPressSalida();
-            Alert.alert(  //This is title
-            'HORAS EN TOTAL',
-              //This is body text
-            'Hoy trabajaste 6 horas',);
             return;
         }
         if(onPressConsulta){
@@ -31,6 +27,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, on
           return;
       }
       };
+      
     return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{cardTitle}</Text>
