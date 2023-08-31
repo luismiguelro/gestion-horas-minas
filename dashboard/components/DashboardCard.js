@@ -5,31 +5,30 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, onPressSalida,onPressConsulta,onPressNovedades }) => {
-    const navigation = useNavigation();
-    // Ejecucion del icono
-    const handleIconPress = () => {
-        // decidir que funcion ejecutar
-        if(onPressIngreso){
-            onPressIngreso();
-            return;
-        }
-        if(onPressSalida){
-            onPressSalida();
-            return;
-        }
-        if(onPressConsulta){
-            navigation.navigate('FormScreen');
-            return;
-        }
-        if(onPressNovedades){
-          navigation.navigate('Novedades');
-          return;
-      }
-      };
-      
-    return (
-    <View style={styles.card}>
+const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressIngreso, onPressSalida, onPressConsulta, onPressNovedades }) => {
+  const navigation = useNavigation();
+
+  const handleIconPress = () => {
+    if (onPressIngreso) {
+      onPressIngreso();
+      return;
+    }
+    if (onPressSalida) {
+      onPressSalida();
+      return;
+    }
+    if (onPressConsulta) {
+      navigation.navigate('FormScreen');
+      return;
+    }
+    if (onPressNovedades) {
+      navigation.navigate('Novedades');
+      return;
+    }
+  };
+
+  return (
+    <View style={[styles.card, cardType === 'consulta' && styles.consultaCard]}>
       <Text style={styles.cardTitle}>{cardTitle}</Text>
       <View style={styles.cardContent}>
         <View style={styles.cardText}>
@@ -37,11 +36,11 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, icon, onPressIngreso, on
           <Text style={styles.dateText}>{dateText}</Text>
         </View>
         <View style={styles.iconContainer}>
-        <Pressable
+          <Pressable
             onPress={handleIconPress}>
-            <Ionicons name={icon} size={60} color={'#EFE3C8'}/>
-        </Pressable>
-            </View>
+            <Ionicons name={icon} size={60} color={'#EFE3C8'} />
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -86,6 +85,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  consultaCard: {
+    backgroundColor: '#203B50', // Cambia esto al color deseado para la tarjeta de consulta
   },
 });
 

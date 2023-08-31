@@ -25,30 +25,30 @@ import Loader from '../components/Loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
-// check terminos y condiciones
+  // check terminos y condiciones
   const [isChecked, setIsChecked] = useState(false);
 
   //validar inputs
   const [inputs, setInputs] = useState({
     email: '',
-    password:'',
+    password: '',
   });
 
   //Validar errores
   const [loading, setLoading] = useState(false);
-  const validate = ()=>{
+  const validate = () => {
     //traer lo que copie el usuario
     Keyboard.dismiss();
     let valid = true;
-    if (!inputs.email){
-      handleError('Ingresa un correo :)','email');
+    if (!inputs.email) {
+      handleError('Ingresa un correo :)', 'email');
       valid = false;
     }
     if (!inputs.password) {
       handleError('Please input password', 'password');
       valid = false;
     }
-    if (valid){
+    if (valid) {
       login();
     }
   };
@@ -56,56 +56,56 @@ const Login = ({ navigation }) => {
   const [errors, setErrors] = useState({});
 
   // Registrarse
-  const login = ()=>{
+  const login = () => {
     setLoading(true);
-    setTimeout(async ()=>{
+    setTimeout(async () => {
       setLoading(false);
       //obtener datos del usuario
       let userData = await AsyncStorage.getItem('user');
       // validar el usuario
-      if (userData){
+      if (userData) {
         userData = JSON.parse(userData);
         //validar los campos escritos y datos registrados
         if (
           inputs.email === userData.email &&
           inputs.password === userData.password
         ) {
-          {/*Actualizar la informacion y añadiendo validacion de inicio de sesion y a su vez llevando a la pantall principal*/}
-          AsyncStorage.setItem('user',  JSON.stringify({...userData, loggedIn: true}),
+          {/*Actualizar la informacion y añadiendo validacion de inicio de sesion y a su vez llevando a la pantall principal*/ }
+          AsyncStorage.setItem('user', JSON.stringify({ ...userData, loggedIn: true }),
           );
           navigation.navigate('Dashboard');
         } else {
-          Alert.alert('Error','Correo o contraseña incorrectos');
+          Alert.alert('Error', 'Correo o contraseña incorrectos');
         }
       } else {
-        Alert.alert('Error','Usuario no existe');
+        Alert.alert('Error', 'Usuario no existe');
       }
-    },3000);
+    }, 3000);
   };
 
   //actualizar estado input con lo ingresado
-  const handleOnchange = (text,input)=>{
-    setInputs(prevState =>({...prevState, [input]:text}));
+  const handleOnchange = (text, input) => {
+    setInputs(prevState => ({ ...prevState, [input]: text }));
   };
 
   //mostrar errores
-  const handleError = (errorMessage,input)=>{
-    setErrors(prevState =>({...prevState, [input]:errorMessage}));
+  const handleError = (errorMessage, input) => {
+    setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
   console.log(inputs);
 
   // Manejadores de prensa para los botones de Facebook y Google
   const handleFacebookPress = () => {
-    Alert.alert('NOTIFICATION','pressed facebook',);
+    Alert.alert('NOTIFICATION', 'pressed facebook',);
   };
 
   const handleGooglePress = () => {
-    Alert.alert('NOTIFICATION','pressed google');
+    Alert.alert('NOTIFICATION', 'pressed google');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Loader visible={loading}/>
+      <Loader visible={loading} />
       <ScrollView>
         <View style={styles.contentContainer}>
           {/* Título */}
@@ -116,35 +116,35 @@ const Login = ({ navigation }) => {
 
           <View style={styles.container}>
 
-      {/* Campo de correo electrónico */}
-      <Input
-        placeholder="Entra tu correo electronico"
-        keyboardType="email-address"
-        icon="mail"
-        label="Correo Electrónico"
-        error={errors.email}
-        onFocus={()=>{
-          {/* Campo de número de identificacion */}
-          handleError(null,'email');
-        }}
-        onChangeText ={text => handleOnchange(text,'email')}
-      />
-      {/* Campo de contraseña */}
-      <Input
-        placeholder="Entra tu contraseña"
-        icon="mail"
-        keyboardType="default"
-        password
-        label="Contraseña"
-        maxLength={8}
-        error={errors.password}
-        onFocus={()=>{
-          {/* Resetear error*/}
-          handleError(null,'password');
-        }}
-        onChangeText ={text => handleOnchange(text,'password')}
-      />
-    </View>
+            {/* Campo de correo electrónico */}
+            <Input
+              placeholder="Entra tu correo electronico"
+              keyboardType="email-address"
+              icon="mail"
+              label="Correo Electrónico"
+              error={errors.email}
+              onFocus={() => {
+                {/* Campo de número de identificacion */ }
+                handleError(null, 'email');
+              }}
+              onChangeText={text => handleOnchange(text, 'email')}
+            />
+            {/* Campo de contraseña */}
+            <Input
+              placeholder="Entra tu contraseña"
+              icon="mail"
+              keyboardType="default"
+              password
+              label="Contraseña"
+              maxLength={8}
+              error={errors.password}
+              onFocus={() => {
+                {/* Resetear error*/ }
+                handleError(null, 'password');
+              }}
+              onChangeText={text => handleOnchange(text, 'password')}
+            />
+          </View>
 
           {/* Checkbox de acuerdo a términos y condiciones */}
           <View style={styles.checkboxContainer}>

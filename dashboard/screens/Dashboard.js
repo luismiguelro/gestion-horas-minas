@@ -3,8 +3,8 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 
-import { View, Text, SafeAreaView, Alert} from 'react-native';
-import React, {useState,useEffect} from 'react';
+import { View, Text, SafeAreaView, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import DashboardCard from '../components/DashboardCard';
 import COLORS from '../../assets/constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage from the correct package
@@ -15,118 +15,141 @@ const Dashboard = ({ navigation }) => {
   const [ingresoTime, setIngresoTime] = useState('');
   const [salidaTime, setSalidaTime] = useState('');
 
-    // Cargar los detalles del usuario al montar el componente
-    useEffect(() => {
-      getUserData();
+  // Cargar los detalles del usuario al montar el componente
+  useEffect(() => {
+    setTimeout(() => {
       loadTimes();
-    }, []);
-  
-    // Obtener los detalles del usuario desde AsyncStorage
-    const getUserData = async () => {
-      const userData = await AsyncStorage.getItem('user');
-      if (userData) {
-        setUserDetails(JSON.parse(userData));
-      }
-    };
+      getUserData();
+    }, 1000);
+  }, []);
 
-    // Cargar las horas de ingreso y salida si existen
-    const loadTimes = async () => {
-      const today = new Date().toLocaleDateString();
-      const ingresoToday = userDetails?.ingresos?.[today];
-      const salidaToday = userDetails?.salidas?.[today];
-      if (ingresoToday) {
-        setIngresoTime(ingresoToday);
-      }
+  // Obtener los detalles del usuario desde AsyncStorage
+  const getUserData = async () => {
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      setUserDetails(JSON.parse(userData));
+    }
+  };
 
-      if (salidaToday) {
-        setSalidaTime(salidaToday);
-      }
-    };
+  // Cargar las horas de ingreso y salida si existen
+  const loadTimes = async () => {
+    const today = new Date().toLocaleDateString();
+    const ingresoToday = userDetails?.ingresos?.[today];
+    const salidaToday = userDetails?.salidas?.[today];
 
-    // Guardar la hora de ingreso o salida en AsyncStorage
-    const saveTime = async (type) => {
-      const today = new Date().toLocaleDateString();
-      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const existingIngreso = userDetails?.ingresos?.[today];
-      const existingSalida = userDetails?.salidas?.[today];
+    if (ingresoToday) {
+      setIngresoTime(ingresoToday);
+    } else {
+      setIngresoTime('Registrar'); // Si no hay hora de ingreso registrada
+    }
 
-      // Verificar si ya existe un registro para el día actual
-      if ((type === 'ingreso' && existingIngreso) || (type === 'salida' && existingSalida)) {
-        Alert.alert('Alerta', 'Ya has registrado la hora para hoy.', [{ text: 'Aceptar' }]);
-        return;
-      }
+    if (salidaToday) {
+      setSalidaTime(salidaToday);
+    } else {
+      setSalidaTime('Registrar'); // Si no hay hora de salida registrada
+    }
+  };
 
-      if (type === 'ingreso') {
-        userDetails.ingresos = {
-          ...(userDetails.ingresos || {}),
-          [today]: currentTime,
-        };
-        setIngresoTime(currentTime);
-      } else if (type === 'salida') {
-        userDetails.salidas = {
-          ...(userDetails.salidas || {}),
-          [today]: currentTime,
-        };
-        setSalidaTime(currentTime);
-      }
-    
-      // Actualizar los detalles del usuario en AsyncStorage
-      await AsyncStorage.setItem('user', JSON.stringify(userDetails));
-  
-      // Calcular y almacenar las horas trabajadas
-      const workedHours = calculateAndStoreWorkHours(today, userDetails.ingresos[today], userDetails.salidas[today]);
-  
-      // Mostrar alerta con las horas trabajadas al registrar la salida
-      if (type === 'salida') {
-        Alert.alert('Horas trabajadas', `Has trabajado ${workedHours.toFixed(2)} horas hoy.`, [{ text: 'Aceptar' }]);
-      }
-    };
+  // Guardar la hora de ingreso o salida en AsyncStorage
+  const saveTime = async (type) => {
+    const today = new Date().toLocaleDateString();
+    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const existingIngreso = userDetails?.ingresos?.[today];
+    const existingSalida = userDetails?.salidas?.[today];
 
-    // Calcular y almacenar las horas trabajadas para un día
-    const calculateAndStoreWorkHours = (date, ingreso, salida) => {
-      if (ingreso && salida) {
-        const ingresoTime = new Date(ingreso);
-        const salidaTime = new Date(salida);
-  
+    // Verificar si ya existe un registro para el día actual
+    if ((type === 'ingreso' && existingIngreso) || (type === 'salida' && existingSalida)) {
+      Alert.alert('Alerta', 'Ya has registrado la hora para hoy.', [{ text: 'Aceptar' }]);
+      return;
+    }
+
+    if (type === 'ingreso') {
+      userDetails.ingresos = {
+        ...(userDetails.ingresos || {}),
+        [today]: currentTime,
+      };
+      setIngresoTime(currentTime);
+    } else if (type === 'salida') {
+      userDetails.salidas = {
+        ...(userDetails.salidas || {}),
+        [today]: currentTime,
+      };
+      setSalidaTime(currentTime);
+    }
+
+    // Actualizar los detalles del usuario en AsyncStorage
+    await AsyncStorage.setItem('user', JSON.stringify(userDetails));
+
+    // Calcular y almacenar las horas trabajadas
+    const workedHours = calculateAndStoreWorkHours(today, userDetails.ingresos[today], userDetails.salidas[today]);
+
+    // Mostrar alerta con las horas trabajadas al registrar la salida
+    if (type === 'salida') {
+      Alert.alert('Horas trabajadas', `Has trabajado ${workedHours.toFixed(2)} horas hoy.`, [{ text: 'Aceptar' }]);
+    }
+  };
+
+  // Calcular y almacenar las horas trabajadas para un día
+  const calculateAndStoreWorkHours = (date, ingreso, salida) => {
+    if (ingreso && salida) {
+      try {
+        const [ingresoHour, ingresoMinute] = ingreso.split(':');
+        const [salidaHour, salidaMinute] = salida.split(':');
+
+        const ingresoTime = new Date();
+        ingresoTime.setHours(parseInt(ingresoHour));
+        ingresoTime.setMinutes(parseInt(ingresoMinute));
+
+        const salidaTime = new Date();
+        salidaTime.setHours(parseInt(salidaHour));
+        salidaTime.setMinutes(parseInt(salidaMinute));
+
+        console.log({ salidaTime, ingresoTime });
         const timeDiffMilliseconds = salidaTime - ingresoTime;
         const hoursWorked = timeDiffMilliseconds / (1000 * 60 * 60); // Convertir milisegundos a horas
-  
+
         userDetails.horasTrabajadas = {
           ...(userDetails.horasTrabajadas || {}),
           [date]: hoursWorked.toFixed(2), // Redondear a 2 decimales
         };
-  
-        // Almacenar los detalles del usuario actualizados en AsyncStorage
+
         AsyncStorage.setItem('user', JSON.stringify(userDetails));
-  
-        // Mostrar en consola las horas trabajadas calculadas
+
         console.log(`Horas trabajadas el ${date}: ${hoursWorked.toFixed(2)} horas`);
-  
+
         return hoursWorked;
+      } catch (error) {
+        console.error('Error al calcular las horas trabajadas:', error);
+        return 0;
       }
-    };
-  
-    // Función para cerrar sesión
-    const logout = () => {
-      AsyncStorage.setItem(
-        'user',
-        JSON.stringify({ ...userDetails, loggedIn: false })
-      );
-      navigation.navigate('Login');
-    };
+    } else {
+      console.warn('No hay hora de ingreso o salida para la fecha proporcionada.');
+      return 0;
+    }
+  };
+
+  // Función para cerrar sesión
+  const logout = () => {
+    AsyncStorage.setItem(
+      'user',
+      JSON.stringify({ ...userDetails, loggedIn: false })
+    );
+    navigation.navigate('Login');
+  };
   return (
-    <SafeAreaView style={styles.container  }>
+    <SafeAreaView style={styles.container}>
       <View style={styles.dashboardHeader}>
-          <View style={styles.headerIcons}>
-            <Text style={{ color: COLORS.white, fontSize: 15 }}>Menú Principal</Text>
-          </View>
-          <View style={styles.exitIcon}>
-            <Icon name="sign-out" size={24} color={COLORS.white} onPress={logout}  />
-          </View>
+        <View style={styles.headerIcons}>
+          <Text style={{ color: COLORS.white, fontSize: 15 }}>Menú Principal</Text>
+        </View>
+        <View style={styles.exitIcon}>
+          <Icon name="sign-out" size={24} color={COLORS.white} onPress={logout} />
+        </View>
       </View>
       <View style={styles.background} />
       <Text style={styles.greeting}>Hello, {userDetails?.fullname}</Text>
-      
+
+      {/*No hay campo para seleccionar fecha, el sistema al dar click toma fecha actual y hora actual en la que se da */}
       <DashboardCard
         cardTitle="Hora de ingreso"
         cardHour={ingresoTime || 'Registrar'}
@@ -146,10 +169,9 @@ const Dashboard = ({ navigation }) => {
 
       <DashboardCard
         cardTitle="Consulta"
-        cardHour={'18:00 PM'}
-        dateText="07-08-2022"
-        icon="clock"
-       
+        cardType="consulta" // Nuevo prop para indicar el tipo de tarjeta
+        icon="consultation" // Cambia esto al nombre de tu icono
+        onPressConsulta={() => navigation.navigate('FormScreen')}
       />
 
       <DashboardCard
@@ -206,8 +228,8 @@ const styles = {
     width: '100%',
     height: '30%',
     backgroundColor: COLORS.primary,
-    borderBottomLeftRadius:15,
-    borderBottomRightRadius:15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
     position: 'absolute',
     zIndex: -1,
   },
