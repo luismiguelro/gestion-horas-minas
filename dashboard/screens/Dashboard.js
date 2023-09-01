@@ -16,18 +16,18 @@ const Dashboard = ({ navigation }) => {
   const [salidaTime, setSalidaTime] = useState('');
 
   // Cargar los detalles del usuario al montar el componente
-  useEffect(() => {
+
     setTimeout(() => {
-      loadTimes();
       getUserData();
     }, 1000);
-  }, []);
+
 
   // Obtener los detalles del usuario desde AsyncStorage
   const getUserData = async () => {
     const userData = await AsyncStorage.getItem('user');
     if (userData) {
       setUserDetails(JSON.parse(userData));
+      loadTimes();
     }
   };
 
@@ -39,14 +39,12 @@ const Dashboard = ({ navigation }) => {
 
     if (ingresoToday) {
       setIngresoTime(ingresoToday);
-    } else {
-      setIngresoTime('Registrar'); // Si no hay hora de ingreso registrada
     }
 
     if (salidaToday) {
       setSalidaTime(salidaToday);
     } else {
-      setSalidaTime('Registrar'); // Si no hay hora de salida registrada
+      setSalidaTime('hola if');
     }
   };
 
@@ -168,17 +166,16 @@ const Dashboard = ({ navigation }) => {
 
 
       <DashboardCard
-        cardTitle="Consulta"
+       cardHour="Consultas"
         cardType="consulta" // Nuevo prop para indicar el tipo de tarjeta
-        icon="consultation" // Cambia esto al nombre de tu icono
+        icon="envelope-open-text" // Cambia esto al nombre de tu icono
         onPressConsulta={() => navigation.navigate('FormScreen')}
       />
 
       <DashboardCard
-        cardTitle="Novedades"
-        cardHour={'18:00 PM'}
-        dateText="07-08-2022"
-        icon="clock"
+        cardHour="Novedades"
+        cardType="consulta"
+        icon="street-view"
         onPressNovedades
       />
     </SafeAreaView>

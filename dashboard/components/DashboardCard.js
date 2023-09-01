@@ -3,7 +3,7 @@
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/FontAwesome5';
 
 const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressIngreso, onPressSalida, onPressConsulta, onPressNovedades }) => {
   const navigation = useNavigation();
@@ -32,7 +32,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressI
       <Text style={styles.cardTitle}>{cardTitle}</Text>
       <View style={styles.cardContent}>
         <View style={styles.cardText}>
-          <Text style={styles.cardHour}>{cardHour}</Text>
+          <Text style={[styles.cardHour, cardType === 'consulta' && styles.cardOther]}>{cardHour}</Text>
           <Text style={styles.dateText}>{dateText}</Text>
         </View>
         <View style={styles.iconContainer}>
@@ -40,6 +40,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressI
             onPress={handleIconPress}>
             <Ionicons name={icon} size={60} color={'#EFE3C8'} />
           </Pressable>
+          {cardType !== 'consulta' && <Text style={styles.clickText}>Presiona para registrar</Text>}
         </View>
       </View>
     </View>
@@ -88,6 +89,17 @@ const styles = StyleSheet.create({
   },
   consultaCard: {
     backgroundColor: '#203B50', // Cambia esto al color deseado para la tarjeta de consulta
+  },
+  cardOther: {
+    color: '#EFE3C8',
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  clickText: {
+    color: '#EFE3C8',
+    fontSize: 10,
+    marginTop: 8,
+    textAlign: 'center', // Center the text horizontally
   },
 });
 
