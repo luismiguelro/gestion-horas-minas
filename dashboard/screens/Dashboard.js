@@ -18,6 +18,7 @@ const Dashboard = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       getUserData();
+      loadTimes();
     }, 1000);
   }, []);
 
@@ -144,12 +145,12 @@ const Dashboard = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.background} />
-      <Text style={styles.greeting}>Hello, {userDetails?.fullname}</Text>
+      <Text style={styles.greeting}>Hola!, {userDetails?.fullname}</Text>
 
       {/* No hay campo para seleccionar fecha, el sistema al dar clic toma fecha actual y hora actual en la que se da */}
       <DashboardCard
         cardTitle="Hora de ingreso"
-        cardHour={ingresoTime }
+        cardHour={ingresoTime}
         dateText={new Date().toLocaleDateString()}
         icon="clock"
         onPressIngreso={() => saveTime('ingreso')}

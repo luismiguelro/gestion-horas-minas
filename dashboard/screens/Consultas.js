@@ -8,9 +8,10 @@ import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage desde el paquete correcto
 import Input from '../../login/components/Input';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Ajusta la importación según la biblioteca de iconos que estés usando
 
 // Definición del componente Consultas
-const Consultas = () => {
+const Consultas = ({navigation}) => {
   // Declaración de estados
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -69,7 +70,10 @@ const Consultas = () => {
   // Renderizado del componente
   return (
     <View style={{ flex: 1, padding: 16 }}>
-      <Text style={styles.cardTitle}>Consulta de Horas Trabajadas</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Icon name="arrow-left" size={24} color={COLORS.primary} onPress={() => navigation.navigate('Dashboard')} />
+        <Text style={{ ...styles.cardTitle, marginLeft: 10 }}>Consulta de Horas Trabajadas</Text>
+      </View>
       <View style={{ marginBottom: 12 }}>
         <Input
           placeholder="01/1/2020"

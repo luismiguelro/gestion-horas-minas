@@ -9,58 +9,10 @@ import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateInput from '../components/DateInput';
-
-/*Estilos*/
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginVertical: 12,
-    color: COLORS.black,
-  },
-  ViewInput: {
-    width: '100%',
-    height: 48,
-    borderColor: COLORS.black,
-    borderWidth: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 22,
-    color: COLORS.black
-  },
-  errorMessage: {
-    color: 'red',
-    marginBottom: 10,
-  },
-  radioOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: COLORS.grey,
-    borderRadius: 8,
-  },
-  selectedRadioOption: {
-    backgroundColor: COLORS.primary, // Color de fondo cuando esté seleccionado
-  },
-  radioLabel: {
-    marginLeft: 8,
-    color: COLORS.black, // Color del texto
-  },
-  selectedRadioButton: {
-    color: 'white', // Color del radio button cuando esté seleccionado
-  },
-});
-
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 // componente de radio option
-const RadioOption = ({ label, value, selected, onSelect }) => (
+const RadioOption = ({ label, value, selected, onSelect}) => (
   <View style={[styles.radioOption, selected === value && styles.selectedRadioOption]}>
     <RadioButton
       value={value}
@@ -88,7 +40,7 @@ const ValidatedTimeInput = ({ placeholder, value, onChangeText }) => {
   );
 };
 
-const Novedades = () => {
+const Novedades = ({ navigation }) => {
   //Diferentes estados
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -258,7 +210,10 @@ const Novedades = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Novedades</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Icon name="arrow-left" size={24} color={COLORS.primary} onPress={() => navigation.navigate('Dashboard')} />
+        <Text style={{ ...styles.title, marginLeft: 10 }}>Novedades</Text>
+      </View>
       {selectedType !== 'Licencia' && (
         <View>
           {/* Fechas inicio y fin */}
@@ -355,4 +310,51 @@ const Novedades = () => {
   );
 };
 
+/*Estilos*/
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginVertical: 12,
+    color: COLORS.black,
+  },
+  ViewInput: {
+    width: '100%',
+    height: 48,
+    borderColor: COLORS.black,
+    borderWidth: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 22,
+    color: COLORS.black
+  },
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  radioOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: COLORS.grey,
+    borderRadius: 8,
+  },
+  selectedRadioOption: {
+    backgroundColor: COLORS.primary, // Color de fondo cuando esté seleccionado
+  },
+  radioLabel: {
+    marginLeft: 8,
+    color: COLORS.black, // Color del texto
+  },
+  selectedRadioButton: {
+    color: 'white', // Color del radio button cuando esté seleccionado
+  },
+});
 export default Novedades;
