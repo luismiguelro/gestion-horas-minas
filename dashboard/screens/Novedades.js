@@ -8,6 +8,8 @@ import { RadioButton } from 'react-native-paper';
 import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateInput from '../DateInput';
+
 /*Estilos*/
 const styles = StyleSheet.create({
   container: {
@@ -55,32 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// componente para las fechas
-const DateInputComponent = ({ label, value, onChangeText }) => {
-  return (
-    <View style={{ marginBottom: 12 }}>
-      <Text
-        style={{
-          fontSize: 16,
-          fontWeight: '400',
-          marginVertical: 8,
-          color: COLORS.black,
-        }}
-      >
-        {label}
-      </Text>
-      <View style={styles.ViewInput}>
-        <TextInput
-          placeholder={`Ingrese ${label}`}
-          placeholderTextColor={COLORS.grey}
-          value={value}
-          onChangeText={onChangeText}
 
-        />
-      </View>
-    </View>
-  );
-};
 // componente de radio option
 const RadioOption = ({ label, value, selected, onSelect }) => (
   <View style={[styles.radioOption, selected === value && styles.selectedRadioOption]}>
@@ -111,6 +88,7 @@ const ValidatedTimeInput = ({ placeholder, value, onChangeText }) => {
 };
 
 const Novedades = () => {
+  //Diferentes estados
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [selectedType, setSelectedType] = useState(null);
@@ -120,6 +98,7 @@ const Novedades = () => {
   const [calculatedDays, setCalculatedDays] = useState(0);
   const [calculatedHours, setCalculatedHours] = useState(0);
   const [processingMessage, setProcessingMessage] = useState('');
+
   // Limpiar el mensaje de error cuando se cambie la selección de tipo
   React.useEffect(() => {
     setErrorMessage('');
@@ -128,6 +107,7 @@ const Novedades = () => {
     setStartDate('');
   }, [selectedType]);
 
+  //Validaciones de fecha y hora
   const isValidDate = (dateString) => {
     const pattern = /^\d{4}-\d{2}-\d{2}$/;
     return pattern.test(dateString);
@@ -138,6 +118,7 @@ const Novedades = () => {
     return pattern.test(hour);
   };
 
+  //Alerta segun las diferentes notificaciones 
   function showAlert(titulo, mensaje) {
     Alert.alert(
       titulo,
@@ -147,8 +128,7 @@ const Novedades = () => {
     );
   }
 
-
-
+  // Calcular los dias dependiendo de la eleccion 
   const handleCalculateDays = () => {
     if (!isValidDate(startDate) || !isValidDate(endDate)) {
       setErrorMessage('Por favor ingresa fechas válidas para calcular los días.');
@@ -166,9 +146,8 @@ const Novedades = () => {
     setCalculatedDays(differenceInDays);
   };
 
+  // Guardar la informacion
   const handleSave = async () => {
-
-
     if (!selectedType) {
       setErrorMessage('Debes seleccionar un tipo de novedad.');
       return;
@@ -190,7 +169,7 @@ const Novedades = () => {
 
         // Mostrar alerta de cálculo de horas
         showAlert('Cálculo de Horas', `Se calcularon ${hours} horas de licencia.`);
-
+        //Pasar a vacaciones
       } else {
         setCalculatedHours(null);
         showAlert('Notificacion',
@@ -208,6 +187,8 @@ const Novedades = () => {
         setErrorMessage('Por favor ingresa fechas válidas...');
         return;
       }
+
+      //Calcular la diferencia de dias
       const startDateObj = new Date(startDate);
       const endDateObj = new Date(endDate);
       const differenceInDays = Math.floor((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
@@ -221,6 +202,7 @@ const Novedades = () => {
           `La incapacidad es de ${differenceInDays} días.`);
       }
     }
+
     // Validación de Vacaciones
     if (selectedType === 'Vacaciones') {
       if (!isValidDate(startDate) || !isValidDate(endDate)) {
@@ -247,6 +229,7 @@ const Novedades = () => {
         endDate: endDate,
       };
 
+      // guardar novedad si es de tipo licencia
       if (selectedType === 'Licencia') {
         newNovedad = {
           ...newNovedad,
@@ -278,13 +261,13 @@ const Novedades = () => {
       {selectedType !== 'Licencia' && (
         <View>
           {/* Fechas inicio y fin */}
-          <DateInputComponent
-            label="Fecha Inicio (DD/M/YYYY)"
+          <DateInput
+            label="Fecha Inicio (YYYY-MM-DD)"
             value={startDate}
             onChangeText={(text) => setStartDate(text)}
           />
-          <DateInputComponent
-            label="Fecha Fin  (DD/M/YYYY)"
+          <DateInput
+            label="Fecha Fin (YYYY-MM-DD)"
             value={endDate}
             onChangeText={(text) => setEndDate(text)}
           />
@@ -292,9 +275,6 @@ const Novedades = () => {
           {errorMessage !== '' && <Text style={styles.errorMessage}>{errorMessage}</Text>}
         </View>
       )}
-
-
-
 
       {/* Opciones */}
       <View>
@@ -343,7 +323,7 @@ const Novedades = () => {
         </View>
       )}
       {/* Mostrar mensaje de procesamiento */}
-      {processingMessage !== '' && <Text style={styles.processingMessage}>{processingMessage}</Text>}
+      {processingMessage !== '' && <Text style={{ color: COLORS.primary }}>{processingMessage}</Text>}
 
       <Button
         title={selectedType !== 'Licencia' ? 'Calcular días' : 'Calcular horas'}
@@ -367,6 +347,7 @@ const Novedades = () => {
         }}
         onPress={() => {
           handleSave();
+          setErrorMessage('');
         }}
       />
     </View>

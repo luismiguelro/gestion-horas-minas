@@ -2,20 +2,24 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable react-native/no-inline-styles */
 
-import React, { useState } from 'react';
+import React, { useState, Keyboard } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, FlatList } from 'react-native';
 import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage from the correct package
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage desde el paquete correcto
+import Input from '../../login/components/Input';
 
-
-const FormScreen = () => {
+// Definición del componente Consultas
+const Consultas = () => {
+  // Declaración de estados
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [records, setRecords] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
+  // Función para realizar una búsqueda
   const handleSearch = async () => {
+    // Validación de fechas
     if (!isValidDate(startDate) || !isValidDate(endDate)) {
       Alert.alert('Error', 'Por favor ingresa fechas válidas (dd/MM/yyyy).');
       return;
@@ -25,10 +29,10 @@ const FormScreen = () => {
     const user = await AsyncStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
-      console.log(userData);
+
+      // Filtrar registros
       const ingresos = userData.ingresos || {};
       const salidas = userData.salidas || {};
-
       const filteredRecords = [];
 
       for (const date in ingresos) {
@@ -38,11 +42,13 @@ const FormScreen = () => {
           ingresos[date] &&
           salidas[date]
         ) {
-          const hours = userData.horasTrabajadas?.[date] || 'N/A';
+          console.log(userData.salidas);
+          const hours = userData.horasTrabajadas?.ingresos[date] || 'N/A';
           filteredRecords.push({ date, hours });
         }
       }
 
+      // Mostrar mensaje si no se encontraron registros
       if (filteredRecords.length === 0) {
         Alert.alert(
           'Sin registros',
@@ -51,40 +57,36 @@ const FormScreen = () => {
         return;
       }
 
+      // Actualizar el estado con los registros filtrados
       setRecords(filteredRecords);
       setShowTable(true); // Mostrar la tabla después de la búsqueda
     }
   };
 
+  // Función para validar el formato de fecha
   const isValidDate = (dateString) => {
     const pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
     return pattern.test(dateString);
   };
 
+  // Renderizado del componente
   return (
     <View style={{ flex: 1, padding: 16 }}>
       <Text style={styles.cardTitle}>Consulta de Horas Trabajadas</Text>
       <View style={{ marginBottom: 12 }}>
-        <Text style={styles.inputLabel}>Fecha Inicio (DD/M/YYYY)</Text>
-        <TextInput
+        <Input
           placeholder="01/1/2020"
-          placeholderTextColor={COLORS.grey}
-          value={startDate}
+          label="Fecha Inicio (DD/M/YYYY)"
           onChangeText={setStartDate}
-          style={{
-            width: '100%',
-            color: COLORS.black,
-          }}
+          value={startDate}
         />
       </View>
       <View style={{ marginBottom: 12 }}>
-        <Text style={styles.inputLabel}>Fecha Fin (DD/M/YYYY)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="03/1/2020"
-          placeholderTextColor={COLORS.grey}
-          value={endDate}
+        <Input
+          placeholder="01/1/2020"
+          label="Fecha Fin (DD/M/YYYY)"
           onChangeText={setEndDate}
+          value={endDate}
         />
       </View>
       <Button
@@ -94,6 +96,7 @@ const FormScreen = () => {
         onPress={handleSearch}
       />
 
+      {/* Mostrar tabla si showTable es verdadero */}
       {showTable && (
         <View style={{ marginTop: 20 }}>
           <Text style={styles.cardTitle}>Registros encontrados:</Text>
@@ -117,6 +120,7 @@ const FormScreen = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 22,
@@ -174,4 +178,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormScreen;
+export default Consultas;

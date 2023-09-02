@@ -8,7 +8,7 @@ import COLORS from '../../assets/constants/colors';
 import IMAGES from '../../assets/constants/images';
 import React from 'react';
 import Button from '../components/Button';
-
+//Pantalla de presentacion(registrarse o loguearse)
 const Welcome = ({navigation}) => {
   return (
     <LinearGradient

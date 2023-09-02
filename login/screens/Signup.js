@@ -18,7 +18,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import COLORS from '../../assets/constants/colors';
-import InputPassword from '../components/InputPassword';
 import Button from '../components/Button';
 import IMAGES from '../../assets/constants/images';
 import Input from '../components/Input';
@@ -28,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Signup = ({ navigation }) => {
 
-// check terminos y condiciones
+  // check terminos y condiciones
   const [isChecked, setIsChecked] = useState(false);
 
   //validar inputs
@@ -37,19 +36,19 @@ const Signup = ({ navigation }) => {
     id: '',
     fullname: '',
     email: '',
-    password:'',
+    password: '',
   });
 
   // estado para el loader
   const [loading, setLoading] = useState(false);
 
   //Validar errores
-  const validate = async ()=>{
+  const validate = async () => {
     //traer lo que copie el usuario
     Keyboard.dismiss();
     let valid = true;
-    if (!inputs.email){
-      handleError('Ingresa un correo :)','email');
+    if (!inputs.email) {
+      handleError('Ingresa un correo :)', 'email');
       valid = false;
     } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
       handleError('Ingresa un correo valido :)', 'email');
@@ -57,20 +56,20 @@ const Signup = ({ navigation }) => {
       // validar si
     }
 
-// Validación de la contraseña
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/; //  verifica si la contraseña cumple con los criterios especificados.
-  if (!inputs.password) {
-    handleError('Ingresa una contraseña :)', 'password');
-    valid = false;
-  } else if (!passwordRegex.test(inputs.password)) {
-    handleError('La contraseña debe cumplir los requisitos especificados.', 'password');
-    valid = false;
-  }
+    // Validación de la contraseña
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/; //  verifica si la contraseña cumple con los criterios especificados.
+    if (!inputs.password) {
+      handleError('Ingresa una contraseña :)', 'password');
+      valid = false;
+    } else if (!passwordRegex.test(inputs.password)) {
+      handleError('La contraseña debe cumplir los requisitos especificados.', 'password');
+      valid = false;
+    }
 
 
-// Validación del campo nombre
-    if (!inputs.fullname){
-      handleError('Ingresa tu nombre :)','fullname');
+    // Validación del campo nombre
+    if (!inputs.fullname) {
+      handleError('Ingresa tu nombre :)', 'fullname');
       valid = false;
     }
 
@@ -95,7 +94,7 @@ const Signup = ({ navigation }) => {
         console.log(inputs);
       }
     }
-};
+  };
 
 
   const [errors, setErrors] = useState({});
@@ -116,23 +115,23 @@ const Signup = ({ navigation }) => {
     }, 3000);
   };
 
-    // validar si un correo existe
-    const checkEmailExists = async (email) => {
-      try {
-        const users = await AsyncStorage.getItem('user'); // Suponiendo que 'users' es la clave de almacenamiento para los usuarios
-        if (users) {
-          const userList = JSON.parse(users);
-          const existingUser = userList.find(user => user.email === email);
-          if (existingUser) {
-            return true; // El correo ya existe
-          }
+  // validar si un correo existe
+  const checkEmailExists = async (email) => {
+    try {
+      const users = await AsyncStorage.getItem('user'); // Suponiendo que 'users' es la clave de almacenamiento para los usuarios
+      if (users) {
+        const userList = JSON.parse(users);
+        const existingUser = userList.find(user => user.email === email);
+        if (existingUser) {
+          return true; // El correo ya existe
         }
-        return false; // El correo no existe
-      } catch (error) {
-       Alert.alert('Error while checking email existence:', error.message);
-        return false; // En caso de error, asumimos que el correo no existe para evitar problemas
       }
-    };
+      return false; // El correo no existe
+    } catch (error) {
+      Alert.alert('Error while checking email existence:', error.message);
+      return false; // En caso de error, asumimos que el correo no existe para evitar problemas
+    }
+  };
   // vaciar los inputs
   const resetFields = () => {
     setInputs({
@@ -146,28 +145,28 @@ const Signup = ({ navigation }) => {
   };
 
   //actualizar estado input con lo ingresado
-  const handleOnchange = (text,input)=>{
-    setInputs(prevState =>({...prevState, [input]:text}));
+  const handleOnchange = (text, input) => {
+    setInputs(prevState => ({ ...prevState, [input]: text }));
   };
 
   //mostrar errores
-  const handleError = (errorMessage,input)=>{
-    setErrors(prevState =>({...prevState, [input]:errorMessage}));
+  const handleError = (errorMessage, input) => {
+    setErrors(prevState => ({ ...prevState, [input]: errorMessage }));
   };
   console.log(inputs);
 
   // Manejadores de prensa para los botones de Facebook y Google
   const handleFacebookPress = () => {
-    Alert.alert('NOTIFICATION','pressed facebook',);
+    Alert.alert('NOTIFICATION', 'pressed facebook',);
   };
 
   const handleGooglePress = () => {
-    Alert.alert('NOTIFICATION','pressed google');
+    Alert.alert('NOTIFICATION', 'pressed google');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Loader visible={loading}/>
+      <Loader visible={loading} />
       <ScrollView>
         <View style={styles.contentContainer}>
           {/* Título */}
@@ -177,64 +176,64 @@ const Signup = ({ navigation }) => {
           </View>
 
           <View style={styles.container}>
-      {/* Campo de número de identificacion */}
-      <Input
-        placeholder="Digita tu cedula"
-        keyboardType="numeric"
-        icon="id-card"
-        maxLength={10}
-        label="Cedula de Ciudadania"
-        error={errors.id}
-        onFocus={()=>{
-          {/* Resetear error */}
-          handleError(null,'id');
-        }}
-        onChangeText ={text => handleOnchange(text,'id')}
-        />
-      {/* Campo de nombres */}
-      <Input
-        placeholder="Entra tu nombre completo"
-        keyboardType="default"
-        maxLength={30}
-        icon="user"
-        label="Nombre Completo"
-        error={errors.fullname}
-        onFocus={()=>{
-          {/* Resetear error*/}
-          handleError(null,'fullname');
-        }}
-        onChangeText ={text => handleOnchange(text,'fullname')}
-      />
+            {/* Campo de número de identificacion */}
+            <Input
+              placeholder="Digita tu cedula"
+              keyboardType="numeric"
+              icon="id-card"
+              maxLength={10}
+              label="Cedula de Ciudadania"
+              error={errors.id}
+              onFocus={() => {
+                {/* Resetear error */ }
+                handleError(null, 'id');
+              }}
+              onChangeText={text => handleOnchange(text, 'id')}
+            />
+            {/* Campo de nombres */}
+            <Input
+              placeholder="Entra tu nombre completo"
+              keyboardType="default"
+              maxLength={30}
+              icon="user"
+              label="Nombre Completo"
+              error={errors.fullname}
+              onFocus={() => {
+                {/* Resetear error*/ }
+                handleError(null, 'fullname');
+              }}
+              onChangeText={text => handleOnchange(text, 'fullname')}
+            />
 
-      {/* Campo de correo electrónico */}
-      <Input
-        placeholder="Entra tu correo electronico"
-        keyboardType="email-address"
-        icon="mail"
-        label="Correo Electrónico"
-        error={errors.email}
-        onFocus={()=>{
-          {/* Campo de número de identificacion */}
-          handleError(null,'email');
-        }}
-        onChangeText ={text => handleOnchange(text,'email')}
-      />
-      {/* Campo de contraseña */}
-      <Input
-        placeholder="Entra tu contraseña"
-        icon="mail"
-        keyboardType="default"
-        password
-        label="Contraseña"
-        maxLength={8}
-        error={errors.password}
-        onFocus={()=>{
-          {/* Resetear error*/}
-          handleError(null,'password');
-        }}
-        onChangeText ={text => handleOnchange(text,'password')}
-      />
-    </View>
+            {/* Campo de correo electrónico */}
+            <Input
+              placeholder="Entra tu correo electronico"
+              keyboardType="email-address"
+              icon="mail"
+              label="Correo Electrónico"
+              error={errors.email}
+              onFocus={() => {
+                {/* Campo de número de identificacion */ }
+                handleError(null, 'email');
+              }}
+              onChangeText={text => handleOnchange(text, 'email')}
+            />
+            {/* Campo de contraseña */}
+            <Input
+              placeholder="Entra tu contraseña"
+              icon="mail"
+              keyboardType="default"
+              password
+              label="Contraseña"
+              maxLength={8}
+              error={errors.password}
+              onFocus={() => {
+                {/* Resetear error*/ }
+                handleError(null, 'password');
+              }}
+              onChangeText={text => handleOnchange(text, 'password')}
+            />
+          </View>
 
           {/* Checkbox de acuerdo a términos y condiciones */}
           <View style={styles.checkboxContainer}>

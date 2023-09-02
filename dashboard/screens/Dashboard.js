@@ -1,14 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 
 import { View, Text, SafeAreaView, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import DashboardCard from '../components/DashboardCard';
+import DashboardCard from '../DashboardCard';
 import COLORS from '../../assets/constants/colors';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage from the correct package
-import Icon from 'react-native-vector-icons/FontAwesome'; // Adjust the import based on your chosen icon library
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage desde el paquete correcto
+import Icon from 'react-native-vector-icons/FontAwesome'; // Ajusta la importación según la biblioteca de iconos que estés usando
 
 const Dashboard = ({ navigation }) => {
   const [userDetails, setUserDetails] = useState();
@@ -16,11 +15,11 @@ const Dashboard = ({ navigation }) => {
   const [salidaTime, setSalidaTime] = useState('');
 
   // Cargar los detalles del usuario al montar el componente
-
+  useEffect(() => {
     setTimeout(() => {
       getUserData();
     }, 1000);
-
+  }, []);
 
   // Obtener los detalles del usuario desde AsyncStorage
   const getUserData = async () => {
@@ -43,8 +42,6 @@ const Dashboard = ({ navigation }) => {
 
     if (salidaToday) {
       setSalidaTime(salidaToday);
-    } else {
-      setSalidaTime('hola if');
     }
   };
 
@@ -111,6 +108,7 @@ const Dashboard = ({ navigation }) => {
           [date]: hoursWorked.toFixed(2), // Redondear a 2 decimales
         };
 
+        // guardar info
         AsyncStorage.setItem('user', JSON.stringify(userDetails));
 
         console.log(`Horas trabajadas el ${date}: ${hoursWorked.toFixed(2)} horas`);
@@ -134,6 +132,7 @@ const Dashboard = ({ navigation }) => {
     );
     navigation.navigate('Login');
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.dashboardHeader}>
@@ -147,7 +146,7 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.background} />
       <Text style={styles.greeting}>Hello, {userDetails?.fullname}</Text>
 
-      {/*No hay campo para seleccionar fecha, el sistema al dar click toma fecha actual y hora actual en la que se da */}
+      {/* No hay campo para seleccionar fecha, el sistema al dar clic toma fecha actual y hora actual en la que se da */}
       <DashboardCard
         cardTitle="Hora de ingreso"
         cardHour={ingresoTime || 'Registrar'}
@@ -164,11 +163,10 @@ const Dashboard = ({ navigation }) => {
         onPressSalida={() => saveTime('salida')}
       />
 
-
       <DashboardCard
-       cardHour="Consultas"
+        cardHour="Consultas"
         cardType="consulta" // Nuevo prop para indicar el tipo de tarjeta
-        icon="envelope-open-text" // Cambia esto al nombre de tu icono
+        icon="envelope-open-text" // Ajusta esto al nombre de tu icono
         onPressConsulta={() => navigation.navigate('FormScreen')}
       />
 
@@ -176,12 +174,11 @@ const Dashboard = ({ navigation }) => {
         cardHour="Novedades"
         cardType="consulta"
         icon="street-view"
-        onPressNovedades
+        onPressNovedades={() => { }}
       />
     </SafeAreaView>
   );
 };
-
 const styles = {
   container: {
     flex: 1,

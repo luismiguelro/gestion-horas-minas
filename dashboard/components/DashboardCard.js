@@ -5,9 +5,11 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/FontAwesome5';
 
+// Componente DashboardCard que muestra una tarjeta en el dashboard.
 const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressIngreso, onPressSalida, onPressConsulta, onPressNovedades }) => {
   const navigation = useNavigation();
 
+  // Función para manejar el icono presionado y realizar una acción específica.
   const handleIconPress = () => {
     if (onPressIngreso) {
       onPressIngreso();
@@ -28,6 +30,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressI
   };
 
   return (
+    // Renderiza una tarjeta con título, hora, fecha, icono y acciones.
     <View style={[styles.card, cardType === 'consulta' && styles.consultaCard]}>
       <Text style={styles.cardTitle}>{cardTitle}</Text>
       <View style={styles.cardContent}>
@@ -47,6 +50,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressI
   );
 };
 
+// Estilos para la tarjeta y sus elementos.
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#201520',
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     color: '#EFE3C8',
     fontSize: 10,
     marginTop: 8,
-    textAlign: 'center', // Center the text horizontally
+    textAlign: 'center', // Centra el texto horizontalmente
   },
 });
 
