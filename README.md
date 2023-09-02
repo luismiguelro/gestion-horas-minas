@@ -1,79 +1,60 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Registro de Horas de Trabajo
 
-# Getting Started
+## Introducción
+Este proyecto tiene como objetivo crear una aplicación para el registro de horas de trabajo. La aplicación consta de varias pantallas y funcionalidades que permiten a los usuarios registrar su hora de entrada, hora de salida, consultar registros y gestionar novedades. El repositorio del proyecto está organizado en dos carpetas principales:
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+1. **Login**: En esta carpeta se encuentra el código relacionado con las pantallas de inicio de sesión y registro.
+2. **Dashboard**: En esta carpeta se encuentra todo lo relacionado con el Menú Principal de la aplicación.
 
-## Step 1: Start the Metro Server
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Pantalla de Bienvenida
+La pantalla de bienvenida es la primera pantalla que los usuarios verán al iniciar la aplicación. En esta pantalla, se presenta una breve introducción a la aplicación y se ofrecen dos opciones: "Registrarse" e "Iniciar Sesión".
 
-To start Metro, run the following command from the _root_ of your React Native project:
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/602d1204-1c06-4822-8f1c-4d36ee26bf7f" alt="welcome" width="200">
 
-```bash
-# using npm
-npm start
+- **Registrarse**: Al seleccionar esta opción, los usuarios son redirigidos a la pantalla de registro donde pueden completar un formulario que incluye campos como nombre, correo electrónico y contraseña. La validación de campos en blanco se realiza automáticamente. Una vez completado el registro, se redirige al usuario al Menú Principal.
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/c18b8404-279a-4a58-820d-6b03418912ea" alt="crear cuenta" width="200">
 
-# OR using Yarn
-yarn start
-```
+- **Iniciar Sesión**: Al seleccionar esta opción, los usuarios son llevados a la pantalla de inicio de sesión. Aquí, deben ingresar su correo electrónico y contraseña. Si la información es válida, se les permite el acceso. En caso contrario, se muestra una notificación de "Correo o contraseña incorrecta".
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/3e24ec56-9200-4997-9e9b-cdead179ef18" alt="iniciar-sesion" width="200">
 
-## Step 2: Start your Application
+## Menú Principal
+El Menú Principal es la pantalla central de la aplicación y ofrece cuatro tarjetas diferentes:
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/2b903db1-2937-4435-ad87-f7b764c2a416" alt="dashboard" width="200">
 
-### For Android
+### 1. Registrar Hora de Entrada
+En esta tarjeta, los usuarios pueden registrar la hora de entrada. Al presionar el botón correspondiente, se captura la hora y la fecha actual, se almacena en la memoria local y se muestra en la misma tarjeta. Si se intenta registrar nuevamente, aparece una alerta indicando que ya se realizó un registro previo.
 
-```bash
-# using npm
-npm run android
+### 2. Registrar Hora de Salida
+Similar a la tarjeta de registro de hora de entrada, esta tarjeta permite a los usuarios registrar la hora de salida. Una vez registrada, se muestra la información en la tarjeta y se impide el registro adicional con una alerta de "Registro ya realizado".
 
-# OR using Yarn
-yarn android
-```
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/dd416f2b-20bc-4dac-ba8b-3463e2a63190" alt="dashboard-hora" width="200">
 
-### For iOS
+### 3. Consultas
+En esta tarjeta, los usuarios pueden realizar consultas de sus registros de entrada y salida. Se proporcionan dos campos de entrada para especificar una "Fecha de Inicio" y una "Fecha de Fin". Si las fechas son correctas y existen registros dentro del rango especificado, se muestran los detalles de los registros y las horas trabajadas para cada día. Si no hay registros en el rango, se muestra una alerta.(aca hago pie de que al momento de desarollar no hice busqueda de algun componente externo, si no que valide con el formato dd/mm/yyyy)
 
-```bash
-# using npm
-npm run ios
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/735bad6a-102d-498f-8854-f151211da09d" alt="consultas" width="200">
 
-# OR using Yarn
-yarn ios
-```
+### 4. Novedades
+En la tarjeta de Novedades, los usuarios pueden gestionar eventos especiales, como incapacidades, vacaciones y licencias. La pantalla incluye dos campos de fecha para ingresar "Fecha de Inicio" y "Fecha de Fin". Se valida el formato de fecha y se notifica cualquier error.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+#### Opciones de Novedades
+- **Incapacidades**: Permite ingresar fechas de inicio y fin para las incapacidades.
+- **Vacaciones**: Requiere especificar un período de vacaciones, con un mínimo de 1 día y un máximo de 15 días.
+- **Licencias**: Las licencias no pueden exceder 8 horas en un solo día; se ingresan en formato "hh:mm" en un campo de entrada normal.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+#### Funciones Adicionales
+- **Calcular Días**: Al presionar este botón, se muestra una alerta con el cálculo de días según la opción de novedad seleccionada. Se realizan validaciones específicas para cada tipo de novedad.
+- **Guardar**: Permite guardar la novedad en la memoria local.
+  
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/b09a440d-9f86-4193-a3bd-f3e67e0b28a6" alt="novedades-btns" width="200">
 
-## Step 3: Modifying your App
+## Pantalla Principal - Cierre de Sesión
+En la pantalla principal, se incluye un icono de "Salir". Al hacer clic en este icono, los usuarios son redirigidos a la pantalla de inicio de sesión ubicada en la carpeta "Login". Si no se presiona este icono y se inicia la aplicación nuevamente, se carga automáticamente la pantalla principal ubicada en la carpeta "Dashboard".
 
-Now that you have successfully run the app, let's modify it.
+<img src="https://github.com/luismiguelro/ConstruccionLuisMiguel/assets/101124184/f06c81d7-dda9-46c0-85ff-f9f71f631ba9" alt="cierre-sesion" width="200">
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
 
-## Congratulations! :tada:
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
