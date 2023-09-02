@@ -149,7 +149,7 @@ const Dashboard = ({ navigation }) => {
       {/* No hay campo para seleccionar fecha, el sistema al dar clic toma fecha actual y hora actual en la que se da */}
       <DashboardCard
         cardTitle="Hora de ingreso"
-        cardHour={ingresoTime || 'Registrar'}
+        cardHour={ingresoTime }
         dateText={new Date().toLocaleDateString()}
         icon="clock"
         onPressIngreso={() => saveTime('ingreso')}
@@ -157,7 +157,7 @@ const Dashboard = ({ navigation }) => {
 
       <DashboardCard
         cardTitle="Hora Salida"
-        cardHour={salidaTime || 'Registrar'}
+        cardHour={salidaTime }
         dateText={new Date().toLocaleDateString()}
         icon="clock"
         onPressSalida={() => saveTime('salida')}
