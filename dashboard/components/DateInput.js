@@ -5,7 +5,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import COLORS from '../../assets/constants/colors';
 
 // Componente DateInputComponent utilizado para mostrar un campo de entrada de fecha.
-const DateInputComponent = ({ label, value, onChangeText }) => {
+const DateInput = ({ label, value, onChangeText }) => {
   return (
     <View style={{ marginBottom: 12 }}>
       <Text
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateInputComponent;
+export default DateInput;

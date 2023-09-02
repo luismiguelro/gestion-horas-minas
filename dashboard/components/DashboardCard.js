@@ -20,7 +20,7 @@ const DashboardCard = ({ cardTitle, cardHour, dateText, cardType, icon, onPressI
       return;
     }
     if (onPressConsulta) {
-      navigation.navigate('FormScreen');
+      navigation.navigate('Consultas');
       return;
     }
     if (onPressNovedades) {

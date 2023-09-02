@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Login, Signup, Welcome } from './login';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from './dashboard';
-import { FormScreen } from './dashboard';
+import { Consultas } from './dashboard';
 import { Novedades } from './dashboard';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -79,8 +79,8 @@ export default function App() {
           />
 
           <Stack.Screen
-            name="FormScreen"
-            component={FormScreen}
+            name="Consultas"
+            component={Consultas}
             options={{
               headerShown: false,
             }}

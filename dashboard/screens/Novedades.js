@@ -8,7 +8,7 @@ import { RadioButton } from 'react-native-paper';
 import COLORS from '../../assets/constants/colors';
 import Button from '../../login/components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DateInput from '../DateInput';
+import DateInput from '../components/DateInput';
 
 /*Estilos*/
 const styles = StyleSheet.create({
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingLeft: 22,
+    color: COLORS.black
   },
   errorMessage: {
     color: 'red',
@@ -103,8 +104,6 @@ const Novedades = () => {
   React.useEffect(() => {
     setErrorMessage('');
     setProcessingMessage('');
-    setEndDate('');
-    setStartDate('');
   }, [selectedType]);
 
   //Validaciones de fecha y hora
@@ -175,6 +174,7 @@ const Novedades = () => {
         showAlert('Notificacion',
           'La Licencia ha sido convertida a Vacaciones debido a que excede 8 horas.');
         setSelectedType('Vacaciones');
+        setProcessingMessage('');
         return;
       }
 
@@ -215,6 +215,7 @@ const Novedades = () => {
 
       if (differenceInDays < 1 || differenceInDays > 15) {
         showAlert('Notificación', 'Las vacaciones deben ser mínimo 1 día y máximo 15 días.')
+        setProcessingMessage('');
         return;
       }
       // Mostrar alerta con la duración de las vacaciones

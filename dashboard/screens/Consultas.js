@@ -17,9 +17,9 @@ const Consultas = () => {
   const [records, setRecords] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
+
   // Función para realizar una búsqueda
   const handleSearch = async () => {
-    // Validación de fechas
     if (!isValidDate(startDate) || !isValidDate(endDate)) {
       Alert.alert('Error', 'Por favor ingresa fechas válidas (dd/MM/yyyy).');
       return;
@@ -29,10 +29,10 @@ const Consultas = () => {
     const user = await AsyncStorage.getItem('user');
     if (user) {
       const userData = JSON.parse(user);
-
-      // Filtrar registros
+      console.log(userData);
       const ingresos = userData.ingresos || {};
       const salidas = userData.salidas || {};
+
       const filteredRecords = [];
 
       for (const date in ingresos) {
@@ -42,13 +42,11 @@ const Consultas = () => {
           ingresos[date] &&
           salidas[date]
         ) {
-          console.log(userData.salidas);
-          const hours = userData.horasTrabajadas?.ingresos[date] || 'N/A';
+          const hours = userData.horasTrabajadas?.[date] || 'N/A';
           filteredRecords.push({ date, hours });
         }
       }
 
-      // Mostrar mensaje si no se encontraron registros
       if (filteredRecords.length === 0) {
         Alert.alert(
           'Sin registros',
@@ -57,7 +55,6 @@ const Consultas = () => {
         return;
       }
 
-      // Actualizar el estado con los registros filtrados
       setRecords(filteredRecords);
       setShowTable(true); // Mostrar la tabla después de la búsqueda
     }

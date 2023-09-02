@@ -4,7 +4,7 @@
 
 import { View, Text, SafeAreaView, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import DashboardCard from '../DashboardCard';
+import DashboardCard from '../components/DashboardCard';
 import COLORS from '../../assets/constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage desde el paquete correcto
 import Icon from 'react-native-vector-icons/FontAwesome'; // Ajusta la importación según la biblioteca de iconos que estés usando
@@ -167,7 +167,7 @@ const Dashboard = ({ navigation }) => {
         cardHour="Consultas"
         cardType="consulta" // Nuevo prop para indicar el tipo de tarjeta
         icon="envelope-open-text" // Ajusta esto al nombre de tu icono
-        onPressConsulta={() => navigation.navigate('FormScreen')}
+        onPressConsulta={() => navigation.navigate('Consultas')}
       />
 
       <DashboardCard
